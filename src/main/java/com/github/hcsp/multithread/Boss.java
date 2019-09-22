@@ -15,13 +15,16 @@ public class Boss {
         // Producing -12345678
         // Consuming -12345678
 
-        Producer producer = new Producer();
-        Consumer consumer = new Consumer();
+        Container container = new Container();
+        Object lock = new Object();
+
+        Producer producer = new Producer(container, lock);
+        Consumer consumer = new Consumer(lock, container);
 
         producer.start();
         consumer.start();
 
         producer.join();
-        producer.join();
+        consumer.join();
     }
 }
