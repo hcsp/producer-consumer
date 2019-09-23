@@ -2,15 +2,13 @@ package com.github.hcsp.multithread;
 
 
 import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
 
 public class Consumer extends Thread {
     private ArrayBlockingQueue<Integer> store;
-    private BlockingQueue<Integer> signalQueue;
 
-    public Consumer(ArrayBlockingQueue<Integer> store, BlockingQueue<Integer> signalQueue) {
+
+    public Consumer(ArrayBlockingQueue<Integer> store) {
         this.store = store;
-        this.signalQueue = signalQueue;
     }
 
     @Override
@@ -19,7 +17,7 @@ public class Consumer extends Thread {
         for (int i = 0; i < 10; i++) {
             try {
                 System.out.println("Consuming " + store.take());
-                signalQueue.put(0);
+                sleep(10);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

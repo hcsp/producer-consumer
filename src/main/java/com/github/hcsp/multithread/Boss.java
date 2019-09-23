@@ -1,8 +1,6 @@
 package com.github.hcsp.multithread;
 
 import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
 
 public class Boss {
     public static void main(String[] args) throws InterruptedException {
@@ -19,9 +17,8 @@ public class Boss {
         // Producing -12345678
         // Consuming -12345678
         ArrayBlockingQueue<Integer> store = new ArrayBlockingQueue<>(1);
-        BlockingQueue<Integer> signalQueue = new LinkedBlockingQueue<>();
-        Producer producer = new Producer(store, signalQueue);
-        Consumer consumer = new Consumer(store, signalQueue);
+        Producer producer = new Producer(store);
+        Consumer consumer = new Consumer(store);
 
         producer.start();
         consumer.start();
