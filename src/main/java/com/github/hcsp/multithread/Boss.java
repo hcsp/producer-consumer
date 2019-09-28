@@ -1,5 +1,8 @@
 package com.github.hcsp.multithread;
 
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+
 public class Boss {
     public static void main(String[] args) throws InterruptedException {
         // 请实现一个生产者/消费者模型，其中：
@@ -14,9 +17,11 @@ public class Boss {
         // Consuming 10086
         // Producing -12345678
         // Consuming -12345678
+        BlockingQueue<Integer> queue = new ArrayBlockingQueue<>(1);
+        BlockingQueue<Integer> lock = new ArrayBlockingQueue<>(1);
 
-        Producer producer = new Producer();
-        Consumer consumer = new Consumer();
+        Producer producer = new Producer(queue, lock);
+        Consumer consumer = new Consumer(queue, lock);
 
         producer.start();
         consumer.start();
