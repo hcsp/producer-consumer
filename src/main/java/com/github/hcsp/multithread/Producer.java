@@ -8,7 +8,7 @@ public class Producer extends Thread {
     Object lock;
 
     public Producer(Container container, Object lock) {
-        this.container= container;
+        this.container = container;
         this.lock = lock;
     }
 
