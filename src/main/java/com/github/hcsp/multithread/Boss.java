@@ -1,6 +1,9 @@
 package com.github.hcsp.multithread;
 
 import java.util.LinkedList;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class Boss {
     public static void main(String[] args) throws InterruptedException {
@@ -18,11 +21,13 @@ public class Boss {
         // Consuming -12345678
 
         // the lock object
-        final Object lock = new Object();
+        final Lock lock = new ReentrantLock();
+        final Condition empty = lock.newCondition();
+        final Condition full = lock.newCondition();
         // the data container
         LinkedList<Integer> buffer = new LinkedList<>();
-        Consumer producer = new Consumer(lock, buffer);
-        Producer consumer = new Producer(lock, buffer);
+        Consumer producer = new Consumer(lock, buffer, full, empty);
+        Producer consumer = new Producer(lock, buffer, full, empty);
 
         producer.start();
         consumer.start();
