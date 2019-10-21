@@ -17,9 +17,9 @@ public class Boss {
 
         Producer producer = new Producer();
         Consumer consumer = new Consumer();
+        producer.setConsumer(consumer);
 
         producer.start();
-        consumer.start();
 
         producer.join();
         producer.join();
