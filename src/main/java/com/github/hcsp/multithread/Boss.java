@@ -1,9 +1,38 @@
 package com.github.hcsp.multithread;
 
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> 9389a11... 1. lock/condition 实现
+import java.util.Stack;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
+<<<<<<< HEAD
+/**
+ * 使用lock/Condition 实现
+ *
+ * @author kelvin chen
+ */
+=======
+>>>>>>> fc56ff0... - 修改Boss.java中的join笔误
+>>>>>>> 827116c... - 修改Boss.java中的join笔误
+=======
+=======
+>>>>>>> 9389a11... 1. lock/condition 实现
+/**
+ * 使用lock/Condition 实现
+ *
+ * @author kelvin chen
+ */
+>>>>>>> 489b8a9... 1. wait/notify实现
 public class Boss {
+
+
     public static void main(String[] args) throws InterruptedException {
         // 请实现一个生产者/消费者模型，其中：
         // 生产者生产10个随机的整数供消费者使用（随机数可以通过new Random().nextInt()获得）
@@ -18,16 +47,40 @@ public class Boss {
         // Producing -12345678
         // Consuming -12345678
 
-        BlockingQueue<Integer> queue = new LinkedBlockingQueue<>(1);
-        BlockingQueue<Integer> signalQueue = new LinkedBlockingQueue<>(1);
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+        Producer producer = new Producer();
+        Consumer consumer = new Consumer();
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> 9389a11... 1. lock/condition 实现
+        final Lock lock = new ReentrantLock();
+        final Condition emptyCondition = lock.newCondition();
+        final Condition fullCondition = lock.newCondition();
 
-        Producer producer = new Producer(queue, signalQueue);
-        Consumer consumer = new Consumer(queue, signalQueue);
+        Stack<Integer> ret = new Stack<>();
+
+        Producer producer = new Producer(ret, lock, emptyCondition, fullCondition);
+        Consumer consumer = new Consumer(ret, lock, emptyCondition, fullCondition);
+<<<<<<< HEAD
+=======
+        Producer producer = new Producer();
+        Consumer consumer = new Consumer();
+>>>>>>> fc56ff0... - 修改Boss.java中的join笔误
+>>>>>>> 827116c... - 修改Boss.java中的join笔误
+=======
+        Producer producer = new Producer(LOCK);
+        Consumer consumer = new Consumer(LOCK);
+>>>>>>> 489b8a9... 1. wait/notify实现
+=======
+>>>>>>> 9389a11... 1. lock/condition 实现
 
         producer.start();
         consumer.start();
 
         producer.join();
-        producer.join();
+        consumer.join();
     }
 }
