@@ -1,46 +1,52 @@
 package com.github.hcsp.multithread;
 
 import java.util.Random;
-
+import java.util.Stack;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
 
 /**
- * 生产者
- * @author wheelchen
+ * @author Kelvin Chen
  */
 public class Producer extends Thread {
-    private final Object lock;
-    private static final int SIZE = 10;
-    Producer(Object lock) {
+
+    private final Lock lock;
+    private final Condition emptyCondition;
+    private final Condition fullCondition;
+    private final int SIZE = 10;
+    private Stack<Integer> ret;
+
+    public Producer(Stack<Integer> ret, Lock lock, Condition emptyCondition, Condition fullCondition) {
+        this.ret = ret;
         this.lock = lock;
+        this.emptyCondition = emptyCondition;
+        this.fullCondition = fullCondition;
     }
 
     @Override
     public void run() {
         for (int i = 0; i < SIZE; i++) {
-            synchronized (lock) {
-                //已生产 等待消费
-                while (Boss.flag) {
-                    safeWait();
+            try {
+                lock.lock();
+                //满位
+                while (!ret.empty()) {
+                    fullCondition.await();
                 }
 
-                Boss.randomInt = getRandomInt();
-                System.out.println("Producing " + Boss.randomInt);
-                Boss.flag = true;
-                lock.notifyAll();
+                ret.push(getRandomInt());
+                emptyCondition.signalAll();
 
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } finally {
+                lock.unlock();
             }
         }
     }
 
-    private int getRandomInt() {
-        return new Random().nextInt();
-    }
-
-    private void safeWait() {
-        try {
-            lock.wait();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+    public int getRandomInt() {
+        int randomInt = new Random().nextInt();
+        System.out.println("Producing " + randomInt);
+        return randomInt;
     }
 }

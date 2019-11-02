@@ -1,12 +1,17 @@
 package com.github.hcsp.multithread;
 
+import java.util.Stack;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 /**
- * @author wheelchen
+ * 使用lock/Condition 实现
+ *
+ * @author kelvin chen
  */
 public class Boss {
-    private static final Object LOCK = new Object();
-    static int randomInt;
-    static boolean flag = false;
+
 
     public static void main(String[] args) throws InterruptedException {
         // 请实现一个生产者/消费者模型，其中：
@@ -22,8 +27,14 @@ public class Boss {
         // Producing -12345678
         // Consuming -12345678
 
-        Producer producer = new Producer(LOCK);
-        Consumer consumer = new Consumer(LOCK);
+        final Lock lock = new ReentrantLock();
+        final Condition emptyCondition = lock.newCondition();
+        final Condition fullCondition = lock.newCondition();
+
+        Stack<Integer> ret = new Stack<>();
+
+        Producer producer = new Producer(ret, lock, emptyCondition, fullCondition);
+        Consumer consumer = new Consumer(ret, lock, emptyCondition, fullCondition);
 
         producer.start();
         consumer.start();
