@@ -1,5 +1,6 @@
 package com.github.hcsp.multithread;
 
+<<<<<<< HEAD
 import java.util.Stack;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
@@ -43,4 +44,9 @@ public class Consumer extends Thread {
             }
         }
     }
+=======
+public class Consumer extends Thread {
+    @Override
+    public void run() {}
+>>>>>>> fc56ff0... - 修改Boss.java中的join笔误
 }
