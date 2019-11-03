@@ -1,45 +1,25 @@
 package com.github.hcsp.multithread;
 
-import java.util.Stack;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
+import java.util.concurrent.BlockingQueue;
 
 /**
  * @author wheelchen
  */
 public class Consumer extends Thread {
+    private final BlockingQueue blockingQueue;
 
-    private final Lock lock;
-    private final Condition emptyCondition;
-    private final Condition fullCondition;
-    private Stack<Integer> ret;
-    private final int SIZE = 10;
-
-    public Consumer(Stack<Integer> ret, Lock lock, Condition emptyCondition, Condition fullCondition) {
-        this.ret = ret;
-        this.lock = lock;
-        this.emptyCondition = emptyCondition;
-        this.fullCondition = fullCondition;
+    public Consumer(BlockingQueue blockingQueue) {
+        this.blockingQueue = blockingQueue;
     }
 
     @Override
     public void run() {
-        for (int i = 0; i < SIZE; i++) {
+        for (int i = 0; i < 10; i++) {
             try {
-                lock.lock();
-                //位空
-                while (ret.empty()) {
-                    emptyCondition.await();
-                }
-                int random = ret.pop();
+                int random = (int)blockingQueue.take();
                 System.out.println("Consuming " + random);
-
-                fullCondition.signalAll();
-
             } catch (InterruptedException e) {
                 e.printStackTrace();
-            } finally {
-                lock.unlock();
             }
         }
     }

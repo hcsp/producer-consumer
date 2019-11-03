@@ -1,52 +1,33 @@
 package com.github.hcsp.multithread;
 
 import java.util.Random;
-import java.util.Stack;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
+import java.util.concurrent.BlockingQueue;
 
 /**
- * @author Kelvin Chen
+ * @author wheelchen
  */
 public class Producer extends Thread {
+    private final BlockingQueue blockingQueue;
 
-    private final Lock lock;
-    private final Condition emptyCondition;
-    private final Condition fullCondition;
-    private final int SIZE = 10;
-    private Stack<Integer> ret;
-
-    public Producer(Stack<Integer> ret, Lock lock, Condition emptyCondition, Condition fullCondition) {
-        this.ret = ret;
-        this.lock = lock;
-        this.emptyCondition = emptyCondition;
-        this.fullCondition = fullCondition;
+    public Producer(BlockingQueue blockingQueue) {
+        this.blockingQueue = blockingQueue;
     }
 
     @Override
     public void run() {
-        for (int i = 0; i < SIZE; i++) {
+        for (int i = 0; i < 10; i++) {
+            int random = getRandomInt();
             try {
-                lock.lock();
-                //满位
-                while (!ret.empty()) {
-                    fullCondition.await();
-                }
-
-                ret.push(getRandomInt());
-                emptyCondition.signalAll();
-
+                blockingQueue.put(random);
+                System.out.println("Producing " + random);
             } catch (InterruptedException e) {
                 e.printStackTrace();
-            } finally {
-                lock.unlock();
             }
         }
+
     }
 
-    public int getRandomInt() {
-        int randomInt = new Random().nextInt();
-        System.out.println("Producing " + randomInt);
-        return randomInt;
+    int getRandomInt(){
+        return new Random().nextInt();
     }
 }
