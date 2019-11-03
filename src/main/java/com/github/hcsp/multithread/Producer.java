@@ -8,10 +8,12 @@ import java.util.concurrent.BlockingQueue;
  */
 public class Producer extends Thread {
     private final BlockingQueue blockingQueue;
+    private final BlockingQueue signal;
     private final int SIZE = 10;
 
-    public Producer(BlockingQueue blockingQueue) {
+    public Producer(BlockingQueue blockingQueue, BlockingQueue signal) {
         this.blockingQueue = blockingQueue;
+        this.signal = signal;
     }
 
     @Override
@@ -19,8 +21,11 @@ public class Producer extends Thread {
         for (int i = 0; i < SIZE; i++) {
             int random = getRandomInt();
             try {
-                blockingQueue.put(random);
+                //保证消费者控制台完后再进行下一次输出
+                signal.put(0);
                 System.out.println("Producing " + random);
+                blockingQueue.put(random);
+
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

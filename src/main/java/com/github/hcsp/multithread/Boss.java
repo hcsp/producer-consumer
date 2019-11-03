@@ -21,9 +21,13 @@ public class Boss {
         // Producing -12345678
         // Consuming -12345678
         final BlockingQueue blockingQueue = new ArrayBlockingQueue(1);
+        /**
+         * 保证存取与输出是一个原子性操作
+         */
+        final BlockingQueue signal = new ArrayBlockingQueue(1);
 
-        Producer producer = new Producer(blockingQueue);
-        Consumer consumer = new Consumer(blockingQueue);
+        Producer producer = new Producer(blockingQueue, signal);
+        Consumer consumer = new Consumer(blockingQueue, signal);
 
         producer.start();
         consumer.start();
