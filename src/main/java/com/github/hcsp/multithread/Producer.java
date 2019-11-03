@@ -8,6 +8,7 @@ import java.util.concurrent.BlockingQueue;
  */
 public class Producer extends Thread {
     private final BlockingQueue blockingQueue;
+    private final int SIZE = 10;
 
     public Producer(BlockingQueue blockingQueue) {
         this.blockingQueue = blockingQueue;
@@ -15,7 +16,7 @@ public class Producer extends Thread {
 
     @Override
     public void run() {
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < SIZE; i++) {
             int random = getRandomInt();
             try {
                 blockingQueue.put(random);

@@ -7,6 +7,7 @@ import java.util.concurrent.BlockingQueue;
  */
 public class Consumer extends Thread {
     private final BlockingQueue blockingQueue;
+    private final int SIZE = 10;
 
     public Consumer(BlockingQueue blockingQueue) {
         this.blockingQueue = blockingQueue;
@@ -14,9 +15,9 @@ public class Consumer extends Thread {
 
     @Override
     public void run() {
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < SIZE; i++) {
             try {
-                int random = (int)blockingQueue.take();
+                int random = (int) blockingQueue.take();
                 System.out.println("Consuming " + random);
             } catch (InterruptedException e) {
                 e.printStackTrace();
