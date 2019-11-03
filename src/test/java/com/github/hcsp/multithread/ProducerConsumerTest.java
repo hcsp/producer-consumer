@@ -2,10 +2,10 @@ package com.github.hcsp.multithread;
 
 import com.github.blindpirate.extensions.CaptureSystemOutput;
 import org.hamcrest.Matchers;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.RepeatedTest;
 
 public class ProducerConsumerTest {
-    @Test
+    @RepeatedTest(10)
     @CaptureSystemOutput
     public void test(CaptureSystemOutput.OutputCapture capture) throws Exception {
         capture.expect(
