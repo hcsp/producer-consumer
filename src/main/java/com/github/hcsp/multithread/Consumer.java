@@ -3,10 +3,13 @@ package com.github.hcsp.multithread;
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 =======
 >>>>>>> 9389a11... 1. lock/condition 实现
+=======
+>>>>>>> 827116c... - 修改Boss.java中的join笔误
 import java.util.Stack;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
@@ -91,6 +94,7 @@ public class Consumer extends Thread {
         }
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
 
     private void safeWait() {
         try {
@@ -102,4 +106,11 @@ public class Consumer extends Thread {
 >>>>>>> 489b8a9... 1. wait/notify实现
 =======
 >>>>>>> 9389a11... 1. lock/condition 实现
+=======
+=======
+public class Consumer extends Thread {
+    @Override
+    public void run() {}
+>>>>>>> fc56ff0... - 修改Boss.java中的join笔误
+>>>>>>> 827116c... - 修改Boss.java中的join笔误
 }

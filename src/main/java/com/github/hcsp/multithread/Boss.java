@@ -3,10 +3,13 @@ package com.github.hcsp.multithread;
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 =======
 >>>>>>> 9389a11... 1. lock/condition 实现
+=======
+>>>>>>> 827116c... - 修改Boss.java中的join笔误
 import java.util.Stack;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
@@ -20,6 +23,7 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 =======
 >>>>>>> fc56ff0... - 修改Boss.java中的join笔误
+<<<<<<< HEAD
 >>>>>>> 827116c... - 修改Boss.java中的join笔误
 =======
 =======
@@ -30,6 +34,8 @@ import java.util.concurrent.locks.ReentrantLock;
  * @author kelvin chen
  */
 >>>>>>> 489b8a9... 1. wait/notify实现
+=======
+>>>>>>> 827116c... - 修改Boss.java中的join笔误
 public class Boss {
 
 
@@ -50,12 +56,15 @@ public class Boss {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         Producer producer = new Producer();
         Consumer consumer = new Consumer();
 =======
 <<<<<<< HEAD
 =======
 >>>>>>> 9389a11... 1. lock/condition 实现
+=======
+>>>>>>> 827116c... - 修改Boss.java中的join笔误
         final Lock lock = new ReentrantLock();
         final Condition emptyCondition = lock.newCondition();
         final Condition fullCondition = lock.newCondition();
@@ -65,10 +74,14 @@ public class Boss {
         Producer producer = new Producer(ret, lock, emptyCondition, fullCondition);
         Consumer consumer = new Consumer(ret, lock, emptyCondition, fullCondition);
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 827116c... - 修改Boss.java中的join笔误
 =======
         Producer producer = new Producer();
         Consumer consumer = new Consumer();
 >>>>>>> fc56ff0... - 修改Boss.java中的join笔误
+<<<<<<< HEAD
 >>>>>>> 827116c... - 修改Boss.java中的join笔误
 =======
         Producer producer = new Producer(LOCK);
@@ -76,6 +89,8 @@ public class Boss {
 >>>>>>> 489b8a9... 1. wait/notify实现
 =======
 >>>>>>> 9389a11... 1. lock/condition 实现
+=======
+>>>>>>> 827116c... - 修改Boss.java中的join笔误
 
         producer.start();
         consumer.start();
