@@ -22,6 +22,6 @@ public class Boss {
         consumer.start();
 
         producer.join();
-        producer.join();
+        consumer.join();
     }
 }
