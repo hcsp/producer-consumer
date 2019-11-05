@@ -4,6 +4,7 @@ package com.github.hcsp.multithread;
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 =======
@@ -36,6 +37,8 @@ import java.util.concurrent.locks.ReentrantLock;
 >>>>>>> 489b8a9... 1. wait/notify实现
 =======
 >>>>>>> 827116c... - 修改Boss.java中的join笔误
+=======
+>>>>>>> cd47b0c8132c125385761f6181c98f0a00ad71a4
 public class Boss {
 
 
@@ -53,6 +56,7 @@ public class Boss {
         // Producing -12345678
         // Consuming -12345678
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -91,6 +95,10 @@ public class Boss {
 >>>>>>> 9389a11... 1. lock/condition 实现
 =======
 >>>>>>> 827116c... - 修改Boss.java中的join笔误
+=======
+        Producer producer = new Producer();
+        Consumer consumer = new Consumer();
+>>>>>>> cd47b0c8132c125385761f6181c98f0a00ad71a4
 
         producer.start();
         consumer.start();

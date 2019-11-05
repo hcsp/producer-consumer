@@ -4,6 +4,7 @@ package com.github.hcsp.multithread;
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 =======
@@ -113,4 +114,9 @@ public class Consumer extends Thread {
     public void run() {}
 >>>>>>> fc56ff0... - 修改Boss.java中的join笔误
 >>>>>>> 827116c... - 修改Boss.java中的join笔误
+=======
+public class Consumer extends Thread {
+    @Override
+    public void run() {}
+>>>>>>> cd47b0c8132c125385761f6181c98f0a00ad71a4
 }
