@@ -14,14 +14,16 @@ public class Boss {
         // Consuming 10086
         // Producing -12345678
         // Consuming -12345678
+        Container container = new Container();
+        for (int i = 0; i < 10; i++) {
+            Producer producer = new Producer(container);
+            Consumer consumer = new Consumer(container);
 
-        Producer producer = new Producer();
-        Consumer consumer = new Consumer();
+            producer.start();
+            consumer.start();
 
-        producer.start();
-        consumer.start();
+        }
 
-        producer.join();
-        producer.join();
+
     }
 }
