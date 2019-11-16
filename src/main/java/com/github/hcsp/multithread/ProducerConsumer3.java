@@ -5,19 +5,15 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 /**
- * 1、Object.wait()/notify()/notifyAll()
- * 2、Lock/Condition
- * 3、BlockingQueue
- * 4、......
+ * BlockingQueue
  */
-public class Boss {
+public class ProducerConsumer3 {
     private static final int CAPACITY = 1;
     private static BlockingQueue<Integer> blockingQueue = new ArrayBlockingQueue<>(CAPACITY);
-    private static BlockingQueue<Integer> signalQueue = new ArrayBlockingQueue<>(CAPACITY);
 
     public static void main(String[] args) throws InterruptedException {
-        Producer producer = new Producer(blockingQueue, signalQueue);
-        Consumer consumer = new Consumer(blockingQueue, signalQueue);
+        Producer producer = new Producer(blockingQueue);
+        Consumer consumer = new Consumer(blockingQueue);
 
         producer.start();
         consumer.start();
@@ -28,10 +24,8 @@ public class Boss {
 
     static class Producer extends Thread {
         private BlockingQueue<Integer> blockingQueue;
-        private BlockingQueue<Integer> signalQueue;
 
-        public Producer(BlockingQueue<Integer> signalQueue, BlockingQueue<Integer> blockingQueue) {
-            this.signalQueue = signalQueue;
+        public Producer(BlockingQueue<Integer> blockingQueue) {
             this.blockingQueue = blockingQueue;
         }
 
@@ -40,9 +34,8 @@ public class Boss {
             for (int i = 0; i < 10; i++) {
                 try {
                     Integer value = new Random().nextInt();
-                    blockingQueue.put(value);
                     System.out.println("Producing " + value);
-                    signalQueue.take();
+                    blockingQueue.put(value);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -52,10 +45,8 @@ public class Boss {
 
     static class Consumer extends Thread {
         private BlockingQueue<Integer> blockingQueue;
-        private BlockingQueue<Integer> signalQueue;
 
-        public Consumer(BlockingQueue<Integer> signalQueue, BlockingQueue<Integer> blockingQueue) {
-            this.signalQueue = signalQueue;
+        public Consumer(BlockingQueue<Integer> blockingQueue) {
             this.blockingQueue = blockingQueue;
         }
 
@@ -63,24 +54,11 @@ public class Boss {
         public void run() {
             for (int i = 0; i < 10; i++) {
                 try {
-                    System.out.println("Consumer " + blockingQueue.take());
-                    signalQueue.put(1);
+                    System.out.println("Consuming " + blockingQueue.take());
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
         }
     }
-    // 请实现一个生产者/消费者模型，其中：
-    // 生产者生产10个随机的整数供消费者使用（随机数可以通过new Random().nextInt()获得）
-    // 使得标准输出依次输出它们，例如：
-    // Producing 42
-    // Consuming 42
-    // Producing -1
-    // Consuming -1
-    // ...
-    // Producing 10086
-    // Consuming 10086
-    // Producing -12345678
-    // Consuming -12345678
 }
