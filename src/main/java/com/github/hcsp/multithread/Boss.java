@@ -8,7 +8,7 @@ public class Boss {
     public static void main(String[] args) throws InterruptedException {
         Queue<Integer> queue = new LinkedList<>();
 
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 1; i++) {
             new Thread(new Producer(queue)).start();
             new Thread(new Consumer(queue)).start();
         }

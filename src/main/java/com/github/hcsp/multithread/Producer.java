@@ -13,7 +13,7 @@ public class Producer extends Thread {
 
     @Override
     public void run() {
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 10; i++) {
             synchronized (queue) {
                 while (!queue.isEmpty()) {
                     try {
@@ -24,7 +24,7 @@ public class Producer extends Thread {
                 }
                 int random = new Random().nextInt();
                 queue.offer(random);
-                System.out.println(random);
+                System.out.println("Producing " + random);
                 queue.notify();
             }
         }
