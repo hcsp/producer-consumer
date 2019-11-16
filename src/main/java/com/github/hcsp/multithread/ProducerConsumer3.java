@@ -25,7 +25,7 @@ public class ProducerConsumer3 {
     static class Producer extends Thread {
         private BlockingQueue<Integer> blockingQueue;
 
-        public Producer(BlockingQueue<Integer> blockingQueue) {
+        Producer(BlockingQueue<Integer> blockingQueue) {
             this.blockingQueue = blockingQueue;
         }
 
@@ -46,7 +46,7 @@ public class ProducerConsumer3 {
     static class Consumer extends Thread {
         private BlockingQueue<Integer> blockingQueue;
 
-        public Consumer(BlockingQueue<Integer> blockingQueue) {
+        Consumer(BlockingQueue<Integer> blockingQueue) {
             this.blockingQueue = blockingQueue;
         }
 

@@ -3,8 +3,6 @@ package com.github.hcsp.multithread;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Object.wait()/notify()/notifyAll()
@@ -28,7 +26,7 @@ public class ProducerConsumer1 {
 
     static class Producer extends Thread {
         Queue<Integer> queue;
-        public Producer(Queue<Integer> queue) {
+        Producer(Queue<Integer> queue) {
             this.queue = queue;
         }
 
@@ -55,7 +53,7 @@ public class ProducerConsumer1 {
     static class Consumer extends Thread {
         Queue<Integer> queue;
 
-        public Consumer(Queue<Integer> queue) {
+        Consumer(Queue<Integer> queue) {
             this.queue = queue;
         }
 

@@ -30,7 +30,7 @@ public class Boss {
         private BlockingQueue<Integer> blockingQueue;
         private BlockingQueue<Integer> signalQueue;
 
-        public Producer(BlockingQueue<Integer> signalQueue, BlockingQueue<Integer> blockingQueue) {
+        Producer(BlockingQueue<Integer> signalQueue, BlockingQueue<Integer> blockingQueue) {
             this.signalQueue = signalQueue;
             this.blockingQueue = blockingQueue;
         }
@@ -54,7 +54,7 @@ public class Boss {
         private BlockingQueue<Integer> blockingQueue;
         private BlockingQueue<Integer> signalQueue;
 
-        public Consumer(BlockingQueue<Integer> signalQueue, BlockingQueue<Integer> blockingQueue) {
+        Consumer(BlockingQueue<Integer> signalQueue, BlockingQueue<Integer> blockingQueue) {
             this.signalQueue = signalQueue;
             this.blockingQueue = blockingQueue;
         }

@@ -31,7 +31,7 @@ public class ProducerConsumer2 {
     static class Producer extends Thread {
         Queue<Integer> queue;
 
-        public Producer(Queue<Integer> queue) {
+        Producer(Queue<Integer> queue) {
             this.queue = queue;
         }
 
@@ -59,7 +59,7 @@ public class ProducerConsumer2 {
     static class Consumer extends Thread {
         Queue<Integer> queue;
 
-        public Consumer(Queue<Integer> queue) {
+        Consumer(Queue<Integer> queue) {
             this.queue = queue;
         }
 
