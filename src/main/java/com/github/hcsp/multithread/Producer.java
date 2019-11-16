@@ -7,7 +7,7 @@ public class Producer extends Thread {
     private int size=10;
     @Override
     public void run() {
-        while(size>0) {
+        while (size>0) {
             synchronized (Boss.class) {
                 if (!Boss.flag) {
                     System.out.println("Producing " + new Random().nextInt());
