@@ -1,6 +1,7 @@
 package com.github.hcsp.multithread;
 
 public class Boss {
+    static Boolean flag=false;
     public static void main(String[] args) throws InterruptedException {
         // 请实现一个生产者/消费者模型，其中：
         // 生产者生产10个随机的整数供消费者使用（随机数可以通过new Random().nextInt()获得）
