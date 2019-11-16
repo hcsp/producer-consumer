@@ -2,17 +2,25 @@ package com.github.hcsp.multithread;
 
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class Boss {
-
     public static void main(String[] args) throws InterruptedException {
         Queue<Integer> queue = new LinkedList<>();
+        Lock lock = new ReentrantLock();
+        Condition queueEmpty = lock.newCondition();
+        Condition queueFull = lock.newCondition();
 
-        for (int i = 0; i < 1; i++) {
-            new Thread(new Producer(queue)).start();
-            new Thread(new Consumer(queue)).start();
-        }
+        Thread producer = new Thread(new Producer2(queue, lock, queueEmpty, queueFull));
+        Thread consumer = new Thread(new Consumer2(queue, lock, queueEmpty, queueFull));
 
+        producer.start();
+        consumer.start();
+
+        producer.join();
+        consumer.join();
     }
     // 请实现一个生产者/消费者模型，其中：
     // 生产者生产10个随机的整数供消费者使用（随机数可以通过new Random().nextInt()获得）
