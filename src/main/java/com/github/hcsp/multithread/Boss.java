@@ -63,7 +63,7 @@ public class Boss {
         public void run() {
             for (int i = 0; i < 10; i++) {
                 try {
-                    System.out.println("Consumer " + blockingQueue.take());
+                    System.out.println("Consuming " + blockingQueue.take());
                     signalQueue.put(1);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
