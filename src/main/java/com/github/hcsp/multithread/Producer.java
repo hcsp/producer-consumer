@@ -1,25 +1,36 @@
 package com.github.hcsp.multithread;
 
 import java.util.Random;
-import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class Producer extends Thread {
-    private BlockingQueue<Integer> que;
+    Container container;
+    ReentrantLock lock;
 
-    public Producer(BlockingQueue<Integer> que) {
-        this.que = que;
+    public Producer(Container container, ReentrantLock lock) {
+        this.container = container;
+        this.lock = lock;
     }
 
     @Override
     public void run() {
-        for (int i=0;i<10;i++){
-            int r = new Random().nextInt();
-            try {
-                que.put(r);
+        lock.lock();
+        try {
+            for (int i = 0; i < 10; i++) {
+                while (container.isPresent()) {
+                    try {
+                        container.getNotConsumedYet().await();
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                int r = new Random().nextInt();
                 System.out.println("Producing " + r);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+                container.put(r);
+                container.getNotProducedYet().signal();
             }
+        } finally {
+            lock.unlock();
         }
     }
 }
