@@ -34,7 +34,7 @@ public class ProducerConsumer5 {
         @Override
         public void run() {
             try {
-                while (true) {
+                for (int i = 0; i < 10; i++) {
                     int value = new Random().nextInt();
                     System.out.println("Producing " + value);
                     Thread.sleep(500);
@@ -56,7 +56,7 @@ public class ProducerConsumer5 {
         @Override
         public void run() {
             try {
-                while (true) {
+                for (int i = 0; i < 10; i++) {
                     Thread.sleep(1000);
                     System.out.println("Consuming " + queue.take());
                 }

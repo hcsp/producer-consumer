@@ -28,12 +28,14 @@ public class ProducerConsumer4 {
 
         @Override
         public void run() {
-            try {
-                int value = new Random().nextInt();
-                System.out.println("Producing " + value);
-                exchanger.exchange(value);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            for (int i = 0; i < 10; i++) {
+                try {
+                    int value = new Random().nextInt();
+                    System.out.println("Producing " + value);
+                    exchanger.exchange(value);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -47,10 +49,12 @@ public class ProducerConsumer4 {
 
         @Override
         public void run() {
-            try {
-                System.out.println("Consuming " + exchanger.exchange(null));
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            for (int i = 0; i < 10; i++) {
+                try {
+                    System.out.println("Consuming " + exchanger.exchange(null));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

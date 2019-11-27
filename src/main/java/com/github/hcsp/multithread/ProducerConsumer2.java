@@ -39,21 +39,23 @@ public class ProducerConsumer2 {
         public void run() {
             lock.lock();
             try {
-                while (queue.size() >= 100) {
-                    queueEmpty.await();
+                for (int i = 0; i < 10; i++) {
+                    while (queue.size() >= 100) {
+                        queueEmpty.await();
+                    }
+                    int value = new Random().nextInt();
+                    System.out.println("Producing " + value);
+                    queue.add(value);
+                    queueFull.signalAll();
                 }
-                int value = new Random().nextInt();
-                System.out.println("Producing " + value);
-                queue.add(value);
-                queueFull.signalAll();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } finally {
                 lock.unlock();
             }
-
         }
     }
+
 
     public static class Consumer extends Thread {
         Queue<Integer> queue;
@@ -66,11 +68,13 @@ public class ProducerConsumer2 {
         public void run() {
             lock.lock();
             try {
-                while (queue.size() == 0) {
-                    queueFull.await();
+                for (int i = 0; i < 10; i++) {
+                    while (queue.size() == 0) {
+                        queueFull.await();
+                    }
+                    System.out.println("Consumint " + queue.remove());
+                    queueEmpty.signalAll();
                 }
-                System.out.println("Consumint " + queue.remove());
-                queueEmpty.signalAll();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } finally {

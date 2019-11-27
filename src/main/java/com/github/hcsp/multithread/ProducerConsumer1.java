@@ -32,7 +32,7 @@ public class ProducerConsumer1 {
         @Override
         public void run() {
             synchronized (container) {
-                while (true) {
+                for (int i = 0; i < 10; i++) {
                     while (container.value != null) {
                         try {
                             container.wait();
@@ -60,7 +60,7 @@ public class ProducerConsumer1 {
         @Override
         public void run() {
             synchronized (container) {
-                while (true) {
+                for (int i = 0; i < 10; i++) {
                     while (container.value == null) {
                         try {
                             container.wait();

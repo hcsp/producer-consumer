@@ -33,16 +33,18 @@ public class ProducerConsumer3 {
 
         @Override
         public void run() {
-            try {
-                emptySlot.acquire();
-                synchronized (ProducerConsumer3.class) {
-                    int value = new Random().nextInt();
-                    System.out.println("Producing " + value);
-                    queue.add(value);
+            for (int i = 0; i < 10; i++) {
+                try {
+                    emptySlot.acquire();
+                    synchronized (ProducerConsumer3.class) {
+                        int value = new Random().nextInt();
+                        System.out.println("Producing " + value);
+                        queue.add(value);
+                    }
+                    fullSlot.release();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-                fullSlot.release();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
             }
         }
     }
@@ -56,14 +58,16 @@ public class ProducerConsumer3 {
 
         @Override
         public void run() {
-            try {
-                fullSlot.acquire();
-                synchronized (ProducerConsumer3.class) {
-                    System.out.println("Producing " + queue.remove());
+            for (int i = 0; i < 10; i++) {
+                try {
+                    fullSlot.acquire();
+                    synchronized (ProducerConsumer3.class) {
+                        System.out.println("Producing " + queue.remove());
+                    }
+                    emptySlot.release();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-                emptySlot.release();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
             }
         }
     }
