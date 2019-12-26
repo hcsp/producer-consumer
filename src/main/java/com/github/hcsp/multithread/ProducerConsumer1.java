@@ -7,8 +7,8 @@ public class ProducerConsumer1 {
     public static void main(String[] args) throws InterruptedException {
         Container1 container=new Container1();
         Object lock =new Object();
-        Producer producer = new Producer(container,lock);
-        Consumer consumer = new Consumer(container,lock);
+        Producer producer = new Producer(container, lock);
+        Consumer consumer = new Consumer(container, lock);
 
         producer.start();
         consumer.start();
@@ -38,7 +38,7 @@ public class ProducerConsumer1 {
                         }
                     }
                     int r = new Random().nextInt();
-                    System.out.println("producing " + r);
+                    System.out.println("Producing " + r);
                     container.setValue(Optional.of(r));
                     lock.notify();
                 }

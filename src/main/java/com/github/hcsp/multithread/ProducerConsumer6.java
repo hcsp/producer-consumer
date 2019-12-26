@@ -6,10 +6,10 @@ import java.util.concurrent.Semaphore;
 
 public class ProducerConsumer6 {
     public static void main(String[] args) throws InterruptedException {
-        Semaphore semaphore=new Semaphore(1,true);
+        Semaphore semaphore = new Semaphore(1, true);
         Container6 container=new Container6(semaphore);
-        Producer producer = new Producer(container,semaphore);
-        Consumer consumer = new Consumer(container,semaphore);
+        Producer producer = new Producer(container, semaphore);
+        Consumer consumer = new Consumer(container, semaphore);
 
         producer.start();
         consumer.start();
@@ -22,7 +22,7 @@ public class ProducerConsumer6 {
         Container6 container;
         Semaphore semaphore;
 
-        public Producer(Container6 container,Semaphore semaphore) {
+        public Producer(Container6 container, Semaphore semaphore) {
             this.container = container;
             this.semaphore=semaphore;
         }
@@ -40,7 +40,7 @@ public class ProducerConsumer6 {
                     }
 
                 int r = new Random().nextInt();
-                    System.out.println("producing " + r);
+                    System.out.println("Producing " + r);
                     container.setValue(Optional.of(r));
                     semaphore.release();
             }
@@ -51,7 +51,7 @@ public class ProducerConsumer6 {
         Container6 container;
         Semaphore semaphore;
 
-        public Consumer(Container6 container,Semaphore semaphore) {
+        public Consumer(Container6 container, Semaphore semaphore) {
             this.container = container;
             this.semaphore=semaphore;
         }

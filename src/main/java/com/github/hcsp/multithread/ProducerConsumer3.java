@@ -8,8 +8,8 @@ public class ProducerConsumer3 {
         public static void main(String[] args) throws InterruptedException {
             BlockingQueue<Integer> queue= new LinkedBlockingQueue<>(1);
             BlockingQueue<Integer> signalQueue= new LinkedBlockingQueue<>(1);
-            Producer producer = new Producer(queue,signalQueue);
-            Consumer consumer = new Consumer(queue,signalQueue);
+            Producer producer = new Producer(queue, signalQueue);
+            Consumer consumer = new Consumer(queue, signalQueue);
 
             producer.start();
             consumer.start();

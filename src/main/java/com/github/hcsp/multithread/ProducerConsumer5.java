@@ -8,8 +8,8 @@ public class ProducerConsumer5 {
             Exchanger<Integer> exgr = new Exchanger<>();
             Exchanger<String> exgr1 = new Exchanger<>();
 
-            Producer producer = new Producer(exgr,exgr1);
-            Consumer consumer = new Consumer(exgr,exgr1);
+            Producer producer = new Producer(exgr, exgr1);
+            Consumer consumer = new Consumer(exgr, exgr1);
 
             producer.start();
             consumer.start();
@@ -21,7 +21,8 @@ public class ProducerConsumer5 {
     public static class Producer extends Thread {
         Exchanger<String> exgr1;
         Exchanger<Integer> exgr;
-        public Producer(Exchanger<Integer> exgr,Exchanger<String> exgr1) {
+
+        public Producer(Exchanger<Integer> exgr, Exchanger<String> exgr1) {
             this.exgr=exgr;
             this.exgr1=exgr1;
         }
@@ -31,7 +32,7 @@ public class ProducerConsumer5 {
                 try {
                         exgr1.exchange("a");
                     int r = new Random().nextInt();
-                    System.out.println("producing " + r);
+                    System.out.println("Producing " + r);
                         exgr.exchange(r);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -44,7 +45,7 @@ public class ProducerConsumer5 {
         Exchanger<String> exgr1;
         Exchanger<Integer> exgr;
 
-        public Consumer(Exchanger<Integer> exgr,Exchanger<String> exgr1) {
+        public Consumer(Exchanger<Integer> exgr, Exchanger<String> exgr1) {
             this.exgr = exgr;
             this.exgr1=exgr1;
         }
