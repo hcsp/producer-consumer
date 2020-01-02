@@ -2,43 +2,11 @@ package com.github.hcsp.multithread;
 
 import java.util.Optional;
 import java.util.Random;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class ProducerConsumer1 {
-    public static class Container {
-        private Condition notConsumedYet; // 还没有被消费
-        private Condition notProducedYet; // 还没有被生产
-        // 任何构造器都要和锁绑定在一起
-        public Container(ReentrantLock lock) {
-            this.notConsumedYet = lock.newCondition();
-            this.notProducedYet = lock.newCondition();
-        }
-
-        public Condition getNotConsumedYet() {
-            return notConsumedYet;
-        }
-
-        public Condition getNotProducedYet() {
-            return notProducedYet;
-        }
-
-        private Optional<Integer> value = Optional.empty();
-
-        public Optional<Integer> getValue() {
-            return value;
-        }
-
-        public void setValue(Optional<Integer> value) {
-            this.value = value;
-        }
-    }
-
     public static void main(String[] args) throws InterruptedException {
-        // 初始为空 Optional 特殊的容器,可能存储,也可能没有
-        ReentrantLock lock = new ReentrantLock();
-        Container container = new Container(lock);
-
+        Container container = new Container();
+        Object lock = new Object();
 
         Producer producer = new Producer(container, lock);
         Consumer consumer = new Consumer(container, lock);
@@ -49,12 +17,12 @@ public class ProducerConsumer1 {
         producer.join();
         producer.join();
     }
-    public static class Producer extends Thread {
-        // 初始为空
-        Container container;
-        final ReentrantLock lock;
 
-        public Producer(Container container, ReentrantLock lock) {
+    public static class Producer extends Thread {
+        Container container;
+        Object lock;
+
+        public Producer(Container container, Object lock) {
             this.container = container;
             this.lock = lock;
         }
@@ -62,64 +30,61 @@ public class ProducerConsumer1 {
         @Override
         public void run() {
             for (int i = 0; i < 10; i++) {
-                try {
-                    lock.lock();
-                    while (container.getValue().isPresent()) {
+                synchronized (lock) {
+                    while (container.getContainer().isPresent()) {
                         try {
-                            container.getNotConsumedYet().await();
+                            lock.wait();
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
                     }
                     int r = new Random().nextInt();
-                    System.out.println("Producing" + r);
-                    container.setValue(Optional.of(r));
-
-                    container.getNotProducedYet().notify();
-                } finally {
-                    lock.unlock();
+                    container.setContainer(Optional.of(r));
+                    System.out.println("Producing " + r);
+                    lock.notify();
                 }
-//                synchronized (lock) {
-                    // isPresent 判断当前存没存对象
-
-//                }
             }
         }
     }
 
     public static class Consumer extends Thread {
-        // 初始为空
         Container container;
-        ReentrantLock lock;
+        Object lock;
 
-        public Consumer(Container value, ReentrantLock lock) {
-            this.container = value;
+        public Consumer(Container container, Object lock) {
+            this.container = container;
             this.lock = lock;
         }
 
         @Override
         public void run() {
             for (int i = 0; i < 10; i++) {
-//                synchronized (lock) {
-                try {
-                    lock.lock();
-                    while (container.getValue().isPresent()) {
+                synchronized (lock) {
+                    while (!container.getContainer().isPresent()) {
                         try {
-                            container.getNotProducedYet().await();
+                            lock.wait();
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
                     }
 
-                    Integer value = container.getValue().get();
-                    container.setValue(Optional.empty());
-                    System.out.println("Consuming" + value);
-
-                    container.getNotConsumedYet().signal();
-                } finally {
-                    lock.unlock();
+                    System.out.println("Consuming " + container.getContainer().get());
+                    container.setContainer(Optional.empty());
+                    lock.notify();
                 }
             }
+        }
+    }
+
+    static class Container {
+        private Optional<Integer> container = Optional.empty();
+
+        public Optional<Integer> getContainer() {
+            return container;
+        }
+
+        public void setContainer(Optional<Integer> container) {
+            this.container = container;
         }
     }
 }
