@@ -1,8 +1,5 @@
 package com.github.hcsp.multithread;
 
-import com.sun.applet2.AppletParameters;
-
-import java.util.Optional;
 import java.util.Random;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
