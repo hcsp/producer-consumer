@@ -42,7 +42,7 @@ public class ProducerConsumer1 {
                     }
                     Integer r = new Random().nextInt();
                     container.setContainer(Optional.of(r));
-                    System.out.println("Producer :" + r);
+                    System.out.println("Producing " + r);
                     lock.notify();
                 }
             }
@@ -70,7 +70,7 @@ public class ProducerConsumer1 {
                             e.printStackTrace();
                         }
                     }
-                    System.out.println("Consumer ：" + container.getContainer().get());
+                    System.out.println("Consuming " + container.getContainer().get());
                     container.setContainer(Optional.empty());
                     lock.notify();
                 }

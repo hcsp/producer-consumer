@@ -38,7 +38,7 @@ public class ProducerConsumer2 {
                         container.getNotConsumerYet().await();
                     }
                     Integer r = new Random().nextInt();
-                    System.out.println("product:" + r);
+                    System.out.println("Producing " + r);
                     container.setContainer(Optional.of(r));
                     container.getNotProductYet().signal();
                 } catch (InterruptedException e) {
@@ -68,7 +68,7 @@ public class ProducerConsumer2 {
                         container.getNotProductYet().await();
                     }
                     Integer r = container.getContainer().get();
-                    System.out.println("consumer:" + r);
+                    System.out.println("Consuming " + r);
                     container.setContainer(Optional.empty());
                     container.getNotConsumerYet().signal();
                 } catch (InterruptedException e) {

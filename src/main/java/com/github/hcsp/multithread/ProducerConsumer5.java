@@ -37,7 +37,7 @@ public class ProducerConsumer5 {
                 }
                 Integer r = new Random().nextInt();
                 container.setContainer(Optional.of(r));
-                System.out.println("product:" + r);
+                System.out.println("Producing " + r);
                 try {
                     exchanger.exchange(container);
                 } catch (InterruptedException e) {
@@ -67,7 +67,7 @@ public class ProducerConsumer5 {
                 while (!container.getContainer().isPresent()) {
                 }
 
-                System.out.println("Consumer:" + container.getContainer().get());
+                System.out.println("Consuming " + container.getContainer().get());
                 container.setContainer(Optional.empty());
             }
         }

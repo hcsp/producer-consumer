@@ -39,7 +39,7 @@ public class ProducerConsumer4 {
                     }
                     mutex.acquire();
                     Integer r = new Random().nextInt();
-                    System.out.println("product:" + r);
+                    System.out.println("Producing " + r);
                     container.setContainer(Optional.of(r));
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -67,7 +67,7 @@ public class ProducerConsumer4 {
                     while (!container.getContainer().isPresent()) {
                     }
                     mutex.acquire();
-                    System.out.println("consumer:" + container.getContainer().get());
+                    System.out.println("Consuming " + container.getContainer().get());
                     container.setContainer(Optional.empty());
                 } catch (InterruptedException e) {
                     e.printStackTrace();
