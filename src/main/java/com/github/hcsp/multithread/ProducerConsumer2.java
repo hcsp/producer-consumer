@@ -1,11 +1,11 @@
 package com.github.hcsp.multithread;
 
-import jdk.nashorn.internal.ir.Block;
 
 import java.util.Optional;
 import java.util.Random;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
+
 
 public class ProducerConsumer2 {
     public static void main(String[] args) throws InterruptedException {
@@ -27,7 +27,7 @@ class Producer2 extends Thread {
     Container2 container;
     ReentrantLock lock;
 
-    public Producer2(Container2 container, ReentrantLock lock) {
+    Producer2(Container2 container, ReentrantLock lock) {
         this.container = container;
         this.lock = lock;
     }
@@ -59,7 +59,7 @@ class Consumer2 extends Thread {
     Container2 container;
     ReentrantLock lock;
 
-    public Consumer2(Container2 container, ReentrantLock lock) {
+    Consumer2(Container2 container, ReentrantLock lock) {
         this.container = container;
         this.lock = lock;
     }
@@ -91,7 +91,7 @@ class Container2 {
     private Condition notConsummedYet;
     private Condition notProducedYet;
 
-    public Container2(ReentrantLock lock) {
+    Container2(ReentrantLock lock) {
         this.notConsummedYet = lock.newCondition();
         this.notProducedYet = lock.newCondition();
     }

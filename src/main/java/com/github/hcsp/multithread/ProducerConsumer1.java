@@ -23,7 +23,7 @@ class Consumer extends Thread {
     Container container;
     Object lock;
 
-    public Consumer(Container container, Object lock) {
+    Consumer(Container container, Object lock) {
         this.container = container;
         this.lock = lock;
     }
@@ -54,7 +54,7 @@ class Producer extends Thread {
     Container container;
     Object lock;
 
-    public Producer(Container container, Object lock) {
+    Producer(Container container, Object lock) {
         this.container = container;
         this.lock = lock;
     }
