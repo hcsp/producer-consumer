@@ -14,8 +14,8 @@ public class ProducerConsumer1 {
         producer.start();
         consumer.start();
 
-//        producer.join();
-//        producer.join();
+        producer.join();
+        producer.join();
     }
 }
 
