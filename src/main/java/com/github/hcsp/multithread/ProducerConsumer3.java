@@ -33,7 +33,7 @@ public class ProducerConsumer3 {
             for (int i = 0; i < 10; i++) {
                 try {
                     int r = new Random().nextInt();
-                    System.out.println("Producing" + r);
+                    System.out.println("Producing " + r);
                     queue.put(r);
                     control.take();
                 } catch (InterruptedException e) {
@@ -57,7 +57,7 @@ public class ProducerConsumer3 {
         public void run() {
             for (int i = 0; i < 10; i++) {
                 try {
-                    System.out.println("Consuming" + queue.take());
+                    System.out.println("Consuming " + queue.take());
                     control.put(0);
                 } catch (InterruptedException e) {
                     e.printStackTrace();

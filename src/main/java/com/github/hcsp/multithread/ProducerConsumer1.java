@@ -43,7 +43,7 @@ class Consumer extends Thread {
                 }
                 Integer value = container.getValue().get();
                 container.setValue(Optional.empty());
-                System.out.println("Consuming" + value);
+                System.out.println("Consuming " + value);
                 lock.notify();
             }
         }
@@ -73,7 +73,7 @@ class Producer extends Thread {
                     }
                 }
                 int r = new Random().nextInt();
-                System.out.println("Producing" + r);
+                System.out.println("Producing " + r);
                 container.setValue(Optional.of(r));
                 lock.notify();
             }

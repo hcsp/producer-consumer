@@ -45,7 +45,7 @@ class Producer2 extends Thread {
                     }
                 }
                 int r = new Random().nextInt();
-                System.out.println("Producing" + r);
+                System.out.println("Producing " + r);
                 container.setValue(Optional.of(r));
                 container.getNotConsummedYet().signal();
             } finally {
@@ -78,7 +78,7 @@ class Consumer2 extends Thread {
                 }
                 Integer value = container.getValue().get();
                 container.setValue(Optional.empty());
-                System.out.println("Consuming" + value);
+                System.out.println("Consuming " + value);
                 container.getNotProducedYet().signal();
             } finally {
                 lock.unlock();
