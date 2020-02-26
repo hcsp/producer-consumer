@@ -32,7 +32,7 @@ public class ProducerConsumer5 {
                     exchanger.exchange(r);
                     System.out.println("Producing " + r);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    throw new RuntimeException(e);
                 }
             }
         }
@@ -51,7 +51,7 @@ public class ProducerConsumer5 {
                 try {
                     System.out.println("Consuming " + exchanger.exchange(null));
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    throw new RuntimeException(e);
                 }
             }
         }
