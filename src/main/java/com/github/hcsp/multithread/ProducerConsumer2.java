@@ -41,9 +41,8 @@ public class ProducerConsumer2 {
                         }
                     }
                     int value2 = new Random().nextInt();
-                    System.out.println("Producing:" + value2);
+                    System.out.println("Producing " + value2);
                     container2.setValue(Optional.of(value2));
-
                     container2.getNotProducedYet().signal();
                 } finally {
                     lock2.unlock();
@@ -73,9 +72,9 @@ public class ProducerConsumer2 {
                             e.printStackTrace();
                         }
                     }
-                    Integer value = container2.getValue().get();
+                    Integer value2 = container2.getValue().get();
                     container2.setValue(Optional.empty());
-                    System.out.println("Consuming:" + value);
+                    System.out.println("Consuming" + value2);
 
                     container2.getNotConsumerYet().signal();
                 } finally {
