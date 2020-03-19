@@ -2,7 +2,6 @@ package com.github.hcsp.multithread;
 
 import java.util.Random;
 import java.util.concurrent.Exchanger;
-import java.util.concurrent.Semaphore;
 
 /**
  *  Exchanger
