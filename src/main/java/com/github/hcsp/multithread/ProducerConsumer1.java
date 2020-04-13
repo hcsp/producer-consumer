@@ -75,7 +75,7 @@ public class ProducerConsumer1 {
 
                     Integer value = this.basket.getBasket().get();
                     basket.setBasket(Optional.empty());
-                    System.out.println("consuming " + value);
+                    System.out.println("Consuming " + value);
 
                     lock.notify();
 
