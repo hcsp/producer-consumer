@@ -24,17 +24,15 @@ public class ProducerConsumer3 {
     public static class Producer extends Thread {
         @Override
         public void run() {
-            for (int i = 0; i < 5; i++) {
-                try {
-                    while (true) {
-                        int value = new Random().nextInt();
-                        container.put(value);
-                        Thread.sleep(300);
-                        System.out.println("Producing " + value);
-                    }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+            try {
+                for (int i = 0; i < 10; i++) {
+                    int value = new Random().nextInt();
+                    container.put(value);
+                    Thread.sleep(300);
+                    System.out.println("Producing " + value);
                 }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
     }
@@ -42,17 +40,15 @@ public class ProducerConsumer3 {
     public static class Consumer extends Thread {
         @Override
         public void run() {
-            for (int i = 0; i < 5; i++) {
-                int value = 0;
-                try {
-                    while (true) {
-                        value = (int) container.take();
-                        Thread.sleep(300);
-                        System.out.println("Consuming " + value);
-                    }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+            int value = 0;
+            try {
+                for (int i = 0; i < 10; i++) {
+                    value = (int) container.take();
+                    Thread.sleep(300);
+                    System.out.println("Consuming " + value);
                 }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
     }

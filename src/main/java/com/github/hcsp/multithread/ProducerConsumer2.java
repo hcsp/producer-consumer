@@ -35,7 +35,7 @@ public class ProducerConsumer2 {
     public static class Producer extends Thread {
         @Override
         public void run() {
-            for (int i = 5; i < 10; i++) {
+            for (int i = 0; i < 10; i++) {
                 while (container.value != null) {
                     try {
                         lock.lock();
@@ -53,7 +53,7 @@ public class ProducerConsumer2 {
     public static class Consumer extends Thread {
         @Override
         public void run() {
-            for (int i = 5; i < 10; i++) {
+            for (int i = 0; i < 10; i++) {
                 while (container.value == null) {
                     try {
                         lock.lock();

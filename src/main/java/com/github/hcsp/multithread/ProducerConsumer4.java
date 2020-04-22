@@ -32,7 +32,7 @@ public class ProducerConsumer4 {
     public static class Producer extends Thread {
         @Override
         public void run() {
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < 10; i++) {
                 try {
                     emptySlot.acquire();
                     synchronized (container) {
@@ -50,7 +50,7 @@ public class ProducerConsumer4 {
     public static class Consumer extends Thread {
         @Override
         public void run() {
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < 10; i++) {
                 try {
                     fullSlot.acquire();
                     synchronized (container) {
