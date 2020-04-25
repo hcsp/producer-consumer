@@ -18,6 +18,9 @@ public class ProducerConsumer1 {
 
         producer.start();
         consumer.start();
+
+        producer.join();
+        consumer.join();
     }
 
     public static class Producer extends Thread {
