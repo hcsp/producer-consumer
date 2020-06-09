@@ -1,6 +1,6 @@
 package com.github.hcsp.multithread;
 
-import javax.swing.plaf.synth.ColorType;
+
 import java.util.Optional;
 import java.util.Random;
 import java.util.concurrent.Semaphore;
@@ -22,7 +22,7 @@ public class ProducerConsumer4 {
 
         producer.join();
         producer.join();
-}
+    }
 
     public static class Producer extends Thread {
         Semaphore semaphore;
