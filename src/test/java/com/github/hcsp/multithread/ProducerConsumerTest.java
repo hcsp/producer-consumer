@@ -53,7 +53,7 @@ public class ProducerConsumerTest {
     private void testOne(Class<?> testClass) {
         try {
             Method main = testClass.getMethod("main", String[].class);
-            main.invoke(null, new Object[]{null});
+            main.invoke(null, new Object[] {null});
             systemOut.println("Output of " + testClass.getName() + ": " + os.toString());
             Assertions.assertTrue(
                     os.toString()
