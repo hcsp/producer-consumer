@@ -53,7 +53,7 @@ public class ProducerConsumer5 {
             for (int i = 0; i < 10; i++) {
                 try {
                     Integer value = exchanger.exchange(null);
-                    System.out.println("Consuming" +  " " +value);
+                    System.out.println("Consuming" + " " + value);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

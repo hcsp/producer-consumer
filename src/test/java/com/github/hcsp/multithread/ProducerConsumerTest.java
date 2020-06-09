@@ -6,6 +6,7 @@ import java.lang.reflect.Method;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -52,7 +53,7 @@ public class ProducerConsumerTest {
     private void testOne(Class<?> testClass) {
         try {
             Method main = testClass.getMethod("main", String[].class);
-            main.invoke(null, new Object[] {null});
+            main.invoke(null, new Object[]{null});
             systemOut.println("Output of " + testClass.getName() + ": " + os.toString());
             Assertions.assertTrue(
                     os.toString()
