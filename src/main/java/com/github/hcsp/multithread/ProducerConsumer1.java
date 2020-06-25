@@ -2,7 +2,6 @@ package com.github.hcsp.multithread;
 
 import java.util.Optional;
 import java.util.Random;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class ProducerConsumer1 {
     public static void main(String[] args) throws InterruptedException {
@@ -12,8 +11,8 @@ public class ProducerConsumer1 {
 
         Object lock = new Object();
         Container container = new Container();
-        Producer producer = new Producer(container,lock);
-        Consumer consumer = new Consumer(container,lock);
+        Producer producer = new Producer(container, lock);
+        Consumer consumer = new Consumer(container, lock);
 
         producer.start();
         consumer.start();
@@ -34,19 +33,19 @@ public class ProducerConsumer1 {
         @Override
         public void run() {
             for (int i = 0; i < 10; i++) {
-            synchronized (lock) {
-                while (container.getContainer().isPresent()) {
-                    try {
-                        lock.wait();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                synchronized (lock) {
+                    while (container.getContainer().isPresent()) {
+                        try {
+                            lock.wait();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
+                    int r = new Random().nextInt();
+                    System.out.println("Producing " + r);
+                    container.setContainer(Optional.of(r));
+                    lock.notify();
                 }
-                int r = new Random().nextInt();
-                System.out.println("Producing " + r);
-                container.setContainer(Optional.of(r));
-                lock.notify();
-            }
             }
         }
     }

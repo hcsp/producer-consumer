@@ -1,8 +1,6 @@
 package com.github.hcsp.multithread;
 
-import java.util.Queue;
 import java.util.Random;
-import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 

@@ -3,25 +3,24 @@ package com.github.hcsp.multithread;
 import java.util.Optional;
 import java.util.Random;
 import java.util.concurrent.Semaphore;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class ProducerConsumer4 {
-        public static void main(String[] args) throws InterruptedException {
-            Container container = new Container();
-            Semaphore available = new Semaphore(1,true);
-            Producer producer = new Producer(container,available);
-            Consumer consumer = new Consumer(container,available);
+    public static void main(String[] args) throws InterruptedException {
+        Container container = new Container();
+        Semaphore available = new Semaphore(1, true);
+        Producer producer = new Producer(container, available);
+        Consumer consumer = new Consumer(container, available);
 
-            producer.start();
-            consumer.start();
+        producer.start();
+        consumer.start();
 
-            producer.join();
-            producer.join();
-        }
+        producer.join();
+        producer.join();
+    }
 
     public static class Producer extends Thread {
-            Container container;
-            Semaphore available;
+        Container container;
+        Semaphore available;
 
         public Producer(Container container, Semaphore available) {
             this.container = container;
