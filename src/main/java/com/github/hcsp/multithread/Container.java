@@ -5,8 +5,8 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class Container {
-    private Condition NotProducedYet;//还没有被生产出来
-    private Condition NotConsumedYet;//还没有被消费掉
+    private Condition NotProducedYet; //还没有被生产出来
+    private Condition NotConsumedYet; //还没有被消费掉
     Optional<Integer> value = Optional.empty();
 
     public Container(ReentrantLock lock) {
