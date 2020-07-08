@@ -31,7 +31,7 @@ public class ProducerConsumer5 {
         public void run() {
             for (int i = 0; i < 10; i++) {
                 Integer value = new Random().nextInt();
-                System.out.println("Producer " + value);
+                System.out.println("Producing " + value);
                 try {
                     exchanger.exchange(value);
                 } catch (InterruptedException e) {
@@ -52,7 +52,7 @@ public class ProducerConsumer5 {
         public void run() {
             for (int i = 0; i < 10; i++) {
                 try {
-                    System.out.println("Consumer " + exchanger.exchange(null));
+                    System.out.println("Consuming " + exchanger.exchange(null));
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

@@ -28,7 +28,7 @@ public class ProducerConsumer3 {
         public void run() {
             for (int i = 0; i < 10; i++) {
                 Integer value = new Random().nextInt();
-                System.out.println("Producer " + value);
+                System.out.println("Producing " + value);
                 try {
                     blockingQueue.put(value);
                 } catch (InterruptedException e) {
@@ -44,7 +44,7 @@ public class ProducerConsumer3 {
             for (int i = 0; i < 10; i++) {
                 try {
                     Integer value = blockingQueue.take();
-                    System.out.println("Consumer " + value);
+                    System.out.println("Consuming " + value);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

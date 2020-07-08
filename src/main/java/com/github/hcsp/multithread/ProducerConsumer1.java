@@ -7,15 +7,15 @@ import java.util.Random;
  */
 public class ProducerConsumer1 {
 
-    volatile static Integer result;
+    static Integer result;
 
     public static void main(String[] args) throws InterruptedException {
 
         Object lock = new Object();
         Integer result = null;
 
-        Producer producer = new Producer(result,lock);
-        Consumer consumer = new Consumer(result,lock);
+        Producer producer = new Producer(result, lock);
+        Consumer consumer = new Consumer(result, lock);
 
         producer.start();
         consumer.start();
@@ -25,7 +25,7 @@ public class ProducerConsumer1 {
     }
 
     public static class Producer extends Thread {
-        Object lock ;
+        Object lock;
 
         public Producer(Integer result, Object lock) {
             this.lock = lock;
@@ -35,8 +35,8 @@ public class ProducerConsumer1 {
         @Override
         public void run() {
             for (int i = 0; i < 10; i++) {
-                synchronized (lock){
-                    while (result != null){
+                synchronized (lock) {
+                    while (result != null) {
                         try {
                             lock.wait();
                         } catch (InterruptedException e) {
@@ -45,7 +45,7 @@ public class ProducerConsumer1 {
                     }
 
                     result = new Random().nextInt();
-                    System.out.println("Producer " + result);
+                    System.out.println("Producing " + result);
                     lock.notify();
                 }
             }
@@ -53,7 +53,7 @@ public class ProducerConsumer1 {
     }
 
     public static class Consumer extends Thread {
-        Object lock ;
+        Object lock;
 
         public Consumer(Integer result, Object lock) {
             this.lock = lock;
@@ -62,15 +62,15 @@ public class ProducerConsumer1 {
         @Override
         public void run() {
             for (int i = 0; i < 10; i++) {
-                synchronized (lock){
-                    while (result == null){
+                synchronized (lock) {
+                    while (result == null) {
                         try {
                             lock.wait();
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
                     }
-                    System.out.println("Consumer " + result);
+                    System.out.println("Consuming " + result);
                     result = null;
                     lock.notify();
                 }

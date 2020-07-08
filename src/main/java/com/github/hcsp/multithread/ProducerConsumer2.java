@@ -10,7 +10,7 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class ProducerConsumer2 {
 
-    volatile static Integer result;
+    static Integer result;
 
     public static void main(String[] args) throws InterruptedException {
 
@@ -28,8 +28,8 @@ public class ProducerConsumer2 {
     }
 
     public static class Producer extends Thread {
-        Lock lock ;
-        Condition condition ;
+        Lock lock;
+        Condition condition;
 
         public Producer(Lock lock, Condition condition) {
             this.lock = lock;
@@ -41,11 +41,11 @@ public class ProducerConsumer2 {
             for (int i = 0; i < 10; i++) {
                 lock.lock();
                 try {
-                    while (result != null){
+                    while (result != null) {
                         condition.await();
                     }
                     result = new Random().nextInt();
-                    System.out.println("Producer " + result);
+                    System.out.println("Producing " + result);
                     condition.signal();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -57,8 +57,8 @@ public class ProducerConsumer2 {
     }
 
     public static class Consumer extends Thread {
-        Lock lock ;
-        Condition condition ;
+        Lock lock;
+        Condition condition;
 
         public Consumer(Lock lock, Condition condition) {
             this.lock = lock;
@@ -69,11 +69,11 @@ public class ProducerConsumer2 {
         public void run() {
             for (int i = 0; i < 10; i++) {
                 lock.lock();
-                try{
-                    while(result == null){
+                try {
+                    while (result == null) {
                         condition.await();
                     }
-                    System.out.println("Consumer " + result);
+                    System.out.println("Consuming " + result);
                     result = null;
                     condition.signal();
                 } catch (InterruptedException e) {

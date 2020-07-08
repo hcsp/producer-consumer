@@ -10,7 +10,7 @@ public class ProducerConsumer4 {
 
     static Semaphore emptySlot = new Semaphore(1);
     static Semaphore fullSlot = new Semaphore(0);
-    static Integer result ;
+    static Integer result;
 
 
     public static void main(String[] args) throws InterruptedException {
@@ -30,9 +30,9 @@ public class ProducerConsumer4 {
             for (int i = 0; i < 10; i++) {
                 try {
                     emptySlot.acquire();
-                    synchronized (ProducerConsumer4.class){
+                    synchronized (ProducerConsumer4.class) {
                         result = new Random().nextInt();
-                        System.out.println("Producer " + result);
+                        System.out.println("Producing " + result);
                     }
                     fullSlot.release();
                 } catch (InterruptedException e) {
@@ -48,8 +48,8 @@ public class ProducerConsumer4 {
             for (int i = 0; i < 10; i++) {
                 try {
                     fullSlot.acquire();
-                    synchronized (ProducerConsumer4.class){
-                        System.out.println("Consumer " + result);
+                    synchronized (ProducerConsumer4.class) {
+                        System.out.println("Consuming " + result);
                         result = null;
                     }
                     emptySlot.release();
