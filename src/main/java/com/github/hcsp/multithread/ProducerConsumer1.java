@@ -57,7 +57,7 @@ public class ProducerConsumer1 {
                     }
                     int randomInteger = new Random().nextInt();
                     container.setOptional(Optional.of(randomInteger));
-                    System.out.println("Producing " + container.getOptional());
+                    System.out.println("Producing " + container.getOptional().get());
                     lock.notify();
                 }
             }
@@ -84,7 +84,7 @@ public class ProducerConsumer1 {
                             e.printStackTrace();
                         }
                     }
-                    System.out.println("Consuming " + container.getOptional());
+                    System.out.println("Consuming " + container.getOptional().get());
                     container.setOptional(Optional.empty());
                     lock.notify();
                 }
