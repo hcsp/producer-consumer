@@ -75,7 +75,7 @@ public class ProducerConsumer2 {
 
                     int randomInteger = new Random().nextInt();
                     container.setOptional(Optional.of(randomInteger));
-                    System.out.println("Producer : " + container.getOptional().get());
+                    System.out.println("Producing " + container.getOptional().get());
                     container.getNotProducedYet().signal();
 
                 } finally {
@@ -108,7 +108,7 @@ public class ProducerConsumer2 {
                             e.printStackTrace();
                         }
                     }
-                    System.out.println("Consumer : " + container.getOptional().get());
+                    System.out.println("Consuming " + container.getOptional().get());
                     container.setOptional(Optional.empty());
                     container.getNotConsumedYet().signal();
                 } finally {
