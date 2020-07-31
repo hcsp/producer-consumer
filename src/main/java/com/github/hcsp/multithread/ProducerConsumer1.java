@@ -5,7 +5,7 @@ import java.util.Random;
 
 public class ProducerConsumer1 {
     private static Optional<Integer> container = Optional.empty();
-    private static final Object lock = new Object();
+    private static final Object LOCK = new Object();
 
     public static void main(String[] args) throws InterruptedException {
         Producer producer = new Producer();
@@ -15,17 +15,17 @@ public class ProducerConsumer1 {
         consumer.start();
 
         producer.join();
-        producer.join();
+        consumer.join();
     }
 
     public static class Producer extends Thread {
         @Override
         public void run() {
             for (int i = 0; i < 10; i++) {
-                synchronized (lock) {
+                synchronized (LOCK) {
                     while (container.orElse(null) != null) {
                         try {
-                            lock.wait();
+                            LOCK.wait();
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -34,7 +34,7 @@ public class ProducerConsumer1 {
                     int num = new Random().nextInt();
                     container = Optional.of(num);
                     System.out.println("Producing " + num);
-                    lock.notify();
+                    LOCK.notify();
                 }
             }
         }
@@ -44,17 +44,17 @@ public class ProducerConsumer1 {
         @Override
         public void run() {
             for (int i = 0; i < 10; i++) {
-                synchronized (lock) {
+                synchronized (LOCK) {
                     while (!container.isPresent()) {
                         try {
-                            lock.wait();
+                            LOCK.wait();
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
                     }
                     System.out.println("Consuming " + container.get());
                     container = Optional.empty();
-                    lock.notify();
+                    LOCK.notify();
                 }
             }
         }

@@ -1,6 +1,5 @@
 package com.github.hcsp.multithread;
 
-import java.util.Optional;
 import java.util.Random;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
@@ -8,36 +7,41 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class ProducerConsumer2 {
 
-    private static final Lock lock = new ReentrantLock();
-    private static Optional<Integer> container = Optional.empty();
-    private static final Condition notProducedYet = lock.newCondition();
-    private static final Condition notConsumedYet = lock.newCondition();
-
     public static void main(String[] args) throws InterruptedException {
-        Producer producer = new Producer();
-        Consumer consumer = new Consumer();
+        Lock lock = new ReentrantLock();
+        Container container = new Container(lock);
+
+        Producer producer = new Producer(container);
+        Consumer consumer = new Consumer(container);
 
         producer.start();
         consumer.start();
 
         producer.join();
-        producer.join();
+        consumer.join();
     }
 
     public static class Producer extends Thread {
+        private Lock lock;
+        private Container container;
+
+        public Producer(Container container) {
+            this.container = container;
+            this.lock = container.getLock();
+        }
 
         @Override
         public void run() {
             for (int i = 0; i < 10; i++) {
                 lock.lock();
                 try {
-                    while (container.isPresent()) {
-                        notProducedYet.await();
+                    while (container.getValue() != null) {
+                        container.getNotProducedYet().await();
                     }
                     int num = new Random().nextInt();
-                    container = Optional.of(num);
+                    container.setValue(num);
                     System.out.println("Producing " + num);
-                    notConsumedYet.signal();
+                    container.getNotConsumedYet().signal();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } finally {
@@ -48,23 +52,64 @@ public class ProducerConsumer2 {
     }
 
     public static class Consumer extends Thread {
+        private Lock lock;
+        private Container container;
+
+        public Consumer(Container container) {
+            this.container = container;
+            this.lock = container.getLock();
+        }
+
         @Override
         public void run() {
             for (int i = 0; i < 10; i++) {
                 lock.lock();
                 try {
-                    while (!container.isPresent()) {
-                        notConsumedYet.await();
+                    while (container.getValue() == null) {
+                        container.getNotConsumedYet().await();
                     }
-                    System.out.println("Consuming " + container.get());
-                    container = Optional.empty();
-                    notProducedYet.signal();
+                    System.out.println("Consuming " + container.getValue());
+                    container.setValue(null);
+                    container.getNotProducedYet().signal();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } finally {
                     lock.unlock();
                 }
             }
+        }
+    }
+
+    private static class Container {
+        private Lock lock;
+        private Integer value;
+        private Condition notProducedYet;
+        private Condition notConsumedYet;
+
+        Container(Lock lock) {
+            this.lock = lock;
+            this.notProducedYet = lock.newCondition();
+            this.notConsumedYet = lock.newCondition();
+        }
+
+        public Lock getLock() {
+            return lock;
+        }
+
+        public Integer getValue() {
+            return value;
+        }
+
+        public void setValue(Integer value) {
+            this.value = value;
+        }
+
+        public Condition getNotProducedYet() {
+            return notProducedYet;
+        }
+
+        public Condition getNotConsumedYet() {
+            return notConsumedYet;
         }
     }
 }

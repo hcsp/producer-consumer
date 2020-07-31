@@ -19,8 +19,8 @@ public class ProducerConsumer5 {
     }
 
     public static class Producer extends Thread {
-        private final Exchanger<Integer> exchanger;
-        private final Exchanger<String> signalExchanger;
+        private Exchanger<Integer> exchanger;
+        private Exchanger<String> signalExchanger;
 
         public Producer(Exchanger<Integer> exchanger, Exchanger<String> signalExchanger) {
             this.exchanger = exchanger;
@@ -43,8 +43,8 @@ public class ProducerConsumer5 {
     }
 
     public static class Consumer extends Thread {
-        private final Exchanger<Integer> exchanger;
-        private final Exchanger<String> signalExchanger;
+        private Exchanger<Integer> exchanger;
+        private Exchanger<String> signalExchanger;
 
         public Consumer(Exchanger<Integer> exchanger, Exchanger<String> signalExchanger) {
             this.exchanger = exchanger;

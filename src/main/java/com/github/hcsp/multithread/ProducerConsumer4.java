@@ -20,7 +20,7 @@ public class ProducerConsumer4 {
     }
 
     public static class Producer extends Thread {
-        private final Semaphore semaphore;
+        private Semaphore semaphore;
 
         public Producer(Semaphore semaphore) {
             this.semaphore = semaphore;
@@ -48,7 +48,7 @@ public class ProducerConsumer4 {
     }
 
     public static class Consumer extends Thread {
-        private final Semaphore semaphore;
+        private Semaphore semaphore;
 
         public Consumer(Semaphore semaphore) {
             this.semaphore = semaphore;
