@@ -1,24 +1,66 @@
 package com.github.hcsp.multithread;
 
+import java.util.Random;
+import java.util.concurrent.BlockingDeque;
+import java.util.concurrent.LinkedBlockingDeque;
+
 public class ProducerConsumer3 {
-    //    public static void main(String[] args) throws InterruptedException {
-    //        Producer producer = new Producer();
-    //        Consumer consumer = new Consumer();
-    //
-    //        producer.start();
-    //        consumer.start();
-    //
-    //        producer.join();
-    //        producer.join();
-    //    }
+    public static void main(String[] args) throws InterruptedException {
+        LinkedBlockingDeque<Integer> queue = new LinkedBlockingDeque();
+        LinkedBlockingDeque<Integer> signalQueue = new LinkedBlockingDeque<>();
+        Producer producer = new Producer(queue, signalQueue);
+        Consumer consumer = new Consumer(queue, signalQueue);
+
+        producer.start();
+        consumer.start();
+
+        producer.join();
+        producer.join();
+    }
 
     public static class Producer extends Thread {
+        LinkedBlockingDeque<Integer> signalQueue;
+        LinkedBlockingDeque<Integer> queue;
+
+        public Producer(LinkedBlockingDeque<Integer> signalQueue, LinkedBlockingDeque<Integer> queue) {
+            this.signalQueue = signalQueue;
+            this.queue = queue;
+        }
+
         @Override
-        public void run() {}
+        public void run() {
+            for (int i = 0; i < 10; i++) {
+                int r = new Random().nextInt();
+                System.out.println("Producing" + r);
+                try {
+                    queue.put(r);
+                    signalQueue.take();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     public static class Consumer extends Thread {
+        LinkedBlockingDeque<Integer> queue;
+        LinkedBlockingDeque<Integer> signalQueue;
+
+        public Consumer(LinkedBlockingDeque<Integer> queue, LinkedBlockingDeque<Integer> signalQueue) {
+            this.queue = queue;
+            this.signalQueue = signalQueue;
+        }
+
         @Override
-        public void run() {}
+        public void run() {
+            for (int i = 0; i < 10; i++) {
+                try {
+                    System.out.println("Consuming" + queue.take());
+                    signalQueue.put(0);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }
