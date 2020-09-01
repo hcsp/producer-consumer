@@ -6,7 +6,7 @@ import java.util.Random;
 import java.util.concurrent.Semaphore;
 
 public class ProducerConsumer4 {
-    /*public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException {
 
         Semaphore semaphore = new Semaphore(1);
         Container container = new Container();
@@ -18,7 +18,7 @@ public class ProducerConsumer4 {
 
         producer.join();
         producer.join();
-    }*/
+    }
 
     public static class Producer extends Thread {
         Semaphore semaphore;
