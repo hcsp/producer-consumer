@@ -7,7 +7,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class ProducerConsumer2 {
 
-   /* public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException {
         ReentrantLock lock = new ReentrantLock();
         Container container = new Container(lock);
 
@@ -19,7 +19,7 @@ public class ProducerConsumer2 {
 
         producer.join();
         producer.join();
-    }*/
+    }
 
     public static class Producer extends Thread {
         Container container;
@@ -93,8 +93,8 @@ public class ProducerConsumer2 {
 
     public static class Container {
         private Optional<Integer> value = Optional.empty();
-        private Condition notConsumedYet;//还没有被消费
-        private Condition notProducedYet;//还没有被生产
+        private Condition notConsumedYet; //还没有被消费
+        private Condition notProducedYet; //还没有被生产
 
         public Container(ReentrantLock lock) {
             this.notConsumedYet = lock.newCondition();

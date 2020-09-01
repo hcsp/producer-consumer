@@ -5,7 +5,7 @@ import java.util.Random;
 
 public class ProducerConsumer1 {
 
-    /*public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException {
         Container container = new Container();
         Object lock = new Object();
         Producer producer = new Producer(container, lock);
@@ -16,7 +16,7 @@ public class ProducerConsumer1 {
 
         producer.join();
         producer.join();
-    }*/
+    }
 
     public static class Producer extends Thread {
         Container container;
