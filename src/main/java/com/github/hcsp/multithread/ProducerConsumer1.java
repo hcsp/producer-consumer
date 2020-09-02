@@ -39,7 +39,7 @@ public class ProducerConsumer1 {
                         }
                     }
                     int r = new Random().nextInt();
-                    System.out.println("Producing" + r);
+                    System.out.println("Producing " + r);
                     container.setValue(Optional.of(r));
                     lock.notify();
                 }
@@ -70,7 +70,7 @@ public class ProducerConsumer1 {
 
                     Integer value = container.getValue().get();
                     container.setValue(Optional.empty());
-                    System.out.println("Consumer" + value);
+                    System.out.println("Consumer " + value);
 
                     lock.notify();
                 }

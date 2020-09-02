@@ -41,7 +41,7 @@ public class ProducerConsumer4 {
                     semaphore.release();
                 }
                 Integer r = new Random().nextInt();
-                System.out.println("Producing" + r);
+                System.out.println("Producing " + r);
                 container.setValue(Optional.of(r));
                 semaphore.release();
             }
@@ -69,7 +69,7 @@ public class ProducerConsumer4 {
                     semaphore.release();
                 }
                 Integer value = container.getValue().get();
-                System.out.println("Consumer" + value);
+                System.out.println("Consumer " + value);
                 container.setValue(Optional.empty());
                 semaphore.release();
             }
