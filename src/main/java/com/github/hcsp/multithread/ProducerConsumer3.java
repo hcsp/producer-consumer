@@ -9,8 +9,8 @@ public class ProducerConsumer3 {
         LinkedBlockingQueue<Integer> queue = new LinkedBlockingQueue<>(1);
         LinkedBlockingQueue<Integer> signalQueue = new LinkedBlockingQueue<>(1);
 
-        Producer producer = new Producer(queue,signalQueue);
-        Consumer consumer = new Consumer(queue,signalQueue);
+        Producer producer = new Producer(queue, signalQueue);
+        Consumer consumer = new Consumer(queue, signalQueue);
 
         producer.start();
         consumer.start();

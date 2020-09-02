@@ -11,8 +11,8 @@ public class ProducerConsumer2 {
         ReentrantLock lock = new ReentrantLock();
         Container container = new Container(lock);
 
-        Producer producer = new Producer(lock,container);
-        Consumer consumer = new Consumer(lock,container);
+        Producer producer = new Producer(lock, container);
+        Consumer consumer = new Consumer(lock, container);
 
         producer.start();
         consumer.start();
