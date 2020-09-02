@@ -18,24 +18,25 @@ public class ProducerConsumer4 {
     }
 
     private static final List<Integer> list = new ArrayList<>(1);
-    private static final Semaphore semaphore = new Semaphore(1, true);
+    private static final Semaphore mutex = new Semaphore(1);
+    private static final Semaphore getSemaphore = new Semaphore(1);
+    private static final Semaphore putSemaphore = new Semaphore(1);
 
     public static class Producer extends Thread {
         @Override
         public void run() {
             for (int i = 0; i < 10; i++) {
                 try {
-                    semaphore.acquire();
-                    while (!list.isEmpty()) {
-                        semaphore.release();
-                    }
+                    putSemaphore.acquire();
+                    mutex.acquire();
                     int num = new Random().nextInt();
-                    System.out.println("Producing " + num);
                     list.add(num);
+                    System.out.println("Producing " + num);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } finally {
-                    semaphore.release();
+                    mutex.release();
+                    getSemaphore.release();
                 }
             }
         }
@@ -46,15 +47,14 @@ public class ProducerConsumer4 {
         public void run() {
             for (int i = 0; i < 10; i++) {
                 try {
-                    semaphore.acquire();
-                    while (list.isEmpty()) {
-                        semaphore.release();
-                    }
+                    getSemaphore.acquire();
+                    mutex.acquire();
                     System.out.println("Consuming " + list.remove(0));
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } finally {
-                    semaphore.release();
+                    mutex.release();
+                    putSemaphore.release();
                 }
             }
         }
