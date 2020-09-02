@@ -70,7 +70,7 @@ public class ProducerConsumer1 {
 
                     Integer value = container.getValue().get();
                     container.setValue(Optional.empty());
-                    System.out.println("Consumer " + value);
+                    System.out.println("Consuming " + value);
 
                     lock.notify();
                 }

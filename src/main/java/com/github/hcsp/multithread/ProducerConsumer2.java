@@ -81,7 +81,7 @@ public class ProducerConsumer2 {
 
                     Integer value = container.getValue().get();
                     container.setValue(Optional.empty());
-                    System.out.println("Consumer " + value);
+                    System.out.println("Consuming " + value);
 
                     container.getNotConsumedYet().signal();
                 } finally {

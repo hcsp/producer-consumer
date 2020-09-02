@@ -69,7 +69,7 @@ public class ProducerConsumer4 {
                     semaphore.release();
                 }
                 Integer value = container.getValue().get();
-                System.out.println("Consumer " + value);
+                System.out.println("Consuming " + value);
                 container.setValue(Optional.empty());
                 semaphore.release();
             }
