@@ -20,7 +20,7 @@ public class ProducerConsumer2 {
 
     private static final ReentrantLock reentrantLock = new ReentrantLock();
     private static final Condition notEmpty = reentrantLock.newCondition();
-    private static final List<Integer> list = new ArrayList<>(1);
+    private static final List<Integer> productList = new ArrayList<>(1);
 
     public static class Producer extends Thread {
         @Override
@@ -28,11 +28,11 @@ public class ProducerConsumer2 {
             for (int i = 0; i < 10; i++) {
                 reentrantLock.lock();
                 try {
-                    if (list.size() >= 1) {
+                    if (productList.size() >= 1) {
                         notEmpty.await();
                     }
-                    list.add(new Random().nextInt());
-                    System.out.println("Producing " + list.get(0));
+                    productList.add(new Random().nextInt());
+                    System.out.println("Producing " + productList.get(0));
                     notEmpty.signalAll();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -49,10 +49,10 @@ public class ProducerConsumer2 {
             for (int i = 0; i < 10; i++) {
                 reentrantLock.lock();
                 try {
-                    if (list.size() < 1) {
+                    if (productList.size() < 1) {
                         notEmpty.await();
                     }
-                    System.out.println("Consuming " + list.remove(0));
+                    System.out.println("Consuming " + productList.remove(0));
                     notEmpty.signalAll();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
