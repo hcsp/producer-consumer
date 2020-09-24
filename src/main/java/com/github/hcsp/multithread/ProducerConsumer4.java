@@ -17,26 +17,26 @@ public class ProducerConsumer4 {
         producer.join();
     }
 
-    private static final List<Integer> productList = new ArrayList<>(1);
-    private static final Semaphore mutexSemaphore = new Semaphore(1);
-    private static final Semaphore getSemaphore = new Semaphore(1);
-    private static final Semaphore putSemaphore = new Semaphore(1);
+    private static final List<Integer> PRODUCT_LIST = new ArrayList<>(1);
+    private static final Semaphore SEMAPHORE = new Semaphore(1);
+    private static final Semaphore GET_SEMAPHORE = new Semaphore(1);
+    private static final Semaphore PUT_SEMAPHORE = new Semaphore(1);
 
     public static class Producer extends Thread {
         @Override
         public void run() {
             for (int i = 0; i < 10; i++) {
                 try {
-                    putSemaphore.acquire();
-                    mutexSemaphore.acquire();
+                    PUT_SEMAPHORE.acquire();
+                    SEMAPHORE.acquire();
                     int num = new Random().nextInt();
-                    productList.add(num);
+                    PRODUCT_LIST.add(num);
                     System.out.println("Producing " + num);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } finally {
-                    mutexSemaphore.release();
-                    getSemaphore.release();
+                    SEMAPHORE.release();
+                    GET_SEMAPHORE.release();
                 }
             }
         }
@@ -47,14 +47,14 @@ public class ProducerConsumer4 {
         public void run() {
             for (int i = 0; i < 10; i++) {
                 try {
-                    getSemaphore.acquire();
-                    mutexSemaphore.acquire();
-                    System.out.println("Consuming " + productList.remove(0));
+                    GET_SEMAPHORE.acquire();
+                    SEMAPHORE.acquire();
+                    System.out.println("Consuming " + PRODUCT_LIST.remove(0));
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } finally {
-                    mutexSemaphore.release();
-                    putSemaphore.release();
+                    SEMAPHORE.release();
+                    PUT_SEMAPHORE.release();
                 }
             }
         }

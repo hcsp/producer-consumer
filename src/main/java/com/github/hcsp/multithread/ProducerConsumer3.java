@@ -16,8 +16,8 @@ public class ProducerConsumer3 {
         producer.join();
     }
 
-    private static final BlockingQueue<Integer> blockingQueue = new ArrayBlockingQueue<>(1);
-    private static final BlockingQueue<Integer> tempQueue = new ArrayBlockingQueue<>(1);
+    private static final BlockingQueue<Integer> BLOCKING_QUEUE = new ArrayBlockingQueue<>(1);
+    private static final BlockingQueue<Integer> TEMP_QUEUE = new ArrayBlockingQueue<>(1);
 
     public static class Producer extends Thread {
         @Override
@@ -25,9 +25,9 @@ public class ProducerConsumer3 {
             for (int i = 0; i < 10; i++) {
                 try {
                     int num = new Random().nextInt();
-                    blockingQueue.put(num);
+                    BLOCKING_QUEUE.put(num);
                     System.out.println("Producing " + num);
-                    tempQueue.take();
+                    TEMP_QUEUE.take();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -40,8 +40,8 @@ public class ProducerConsumer3 {
         public void run() {
             for (int i = 0; i < 10; i++) {
                 try {
-                    System.out.println("Consuming " + blockingQueue.take());
-                    tempQueue.put(0);
+                    System.out.println("Consuming " + BLOCKING_QUEUE.take());
+                    TEMP_QUEUE.put(0);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

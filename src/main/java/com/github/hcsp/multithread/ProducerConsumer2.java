@@ -18,26 +18,26 @@ public class ProducerConsumer2 {
         producer.join();
     }
 
-    private static final ReentrantLock reentrantLock = new ReentrantLock();
-    private static final Condition notEmpty = reentrantLock.newCondition();
-    private static final List<Integer> productList = new ArrayList<>(1);
+    private static final ReentrantLock LOCK = new ReentrantLock();
+    private static final Condition NOT_EMPTY = LOCK.newCondition();
+    private static final List<Integer> PRODUCT_LIST = new ArrayList<>(1);
 
     public static class Producer extends Thread {
         @Override
         public void run() {
             for (int i = 0; i < 10; i++) {
-                reentrantLock.lock();
+                LOCK.lock();
                 try {
-                    if (productList.size() >= 1) {
-                        notEmpty.await();
+                    if (PRODUCT_LIST.size() >= 1) {
+                        NOT_EMPTY.await();
                     }
-                    productList.add(new Random().nextInt());
-                    System.out.println("Producing " + productList.get(0));
-                    notEmpty.signalAll();
+                    PRODUCT_LIST.add(new Random().nextInt());
+                    System.out.println("Producing " + PRODUCT_LIST.get(0));
+                    NOT_EMPTY.signalAll();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } finally {
-                    reentrantLock.unlock();
+                    LOCK.unlock();
                 }
             }
         }
@@ -47,17 +47,17 @@ public class ProducerConsumer2 {
         @Override
         public void run() {
             for (int i = 0; i < 10; i++) {
-                reentrantLock.lock();
+                LOCK.lock();
                 try {
-                    if (productList.size() < 1) {
-                        notEmpty.await();
+                    if (PRODUCT_LIST.size() < 1) {
+                        NOT_EMPTY.await();
                     }
-                    System.out.println("Consuming " + productList.remove(0));
-                    notEmpty.signalAll();
+                    System.out.println("Consuming " + PRODUCT_LIST.remove(0));
+                    NOT_EMPTY.signalAll();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } finally {
-                    reentrantLock.unlock();
+                    LOCK.unlock();
                 }
             }
         }
