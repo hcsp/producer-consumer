@@ -16,24 +16,24 @@ public class ProducerConsumer1 {
         producer.join();
     }
 
-    private static final Object lock = new Object();
-    private static final List<Integer> list = new ArrayList<>(1);
+    private static final Object producerLock = new Object();
+    private static final List<Integer> productList = new ArrayList<>(1);
 
     public static class Producer extends Thread {
         @Override
         public void run() {
             for (int i = 0; i < 10; i++) {
-                synchronized (lock) {
-                    if (list.size() >= 1) {
+                synchronized (producerLock) {
+                    if (productList.size() >= 1) {
                         try {
-                            lock.wait();
+                            producerLock.wait();
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
                     }
-                    list.add(new Random().nextInt());
-                    System.out.println("Producing " + list.get(0));
-                    lock.notifyAll();
+                    productList.add(new Random().nextInt());
+                    System.out.println("Producing " + productList.get(0));
+                    producerLock.notifyAll();
                 }
             }
         }
@@ -43,16 +43,16 @@ public class ProducerConsumer1 {
         @Override
         public void run() {
             for (int i = 0; i < 10; i++) {
-                synchronized (lock) {
-                    if (list.size() < 1) {
+                synchronized (producerLock) {
+                    if (productList.size() < 1) {
                         try {
-                            lock.wait();
+                            producerLock.wait();
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
                     }
-                    System.out.println("Consuming " + list.remove(0));
-                    lock.notifyAll();
+                    System.out.println("Consuming " + productList.remove(0));
+                    producerLock.notifyAll();
                 }
             }
         }

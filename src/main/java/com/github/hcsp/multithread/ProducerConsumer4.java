@@ -17,7 +17,7 @@ public class ProducerConsumer4 {
         producer.join();
     }
 
-    private static final List<Integer> list = new ArrayList<>(1);
+    private static final List<Integer> productList = new ArrayList<>(1);
     private static final Semaphore mutex = new Semaphore(1);
     private static final Semaphore getSemaphore = new Semaphore(1);
     private static final Semaphore putSemaphore = new Semaphore(1);
@@ -30,7 +30,7 @@ public class ProducerConsumer4 {
                     putSemaphore.acquire();
                     mutex.acquire();
                     int num = new Random().nextInt();
-                    list.add(num);
+                    productList.add(num);
                     System.out.println("Producing " + num);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -49,7 +49,7 @@ public class ProducerConsumer4 {
                 try {
                     getSemaphore.acquire();
                     mutex.acquire();
-                    System.out.println("Consuming " + list.remove(0));
+                    System.out.println("Consuming " + productList.remove(0));
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } finally {
