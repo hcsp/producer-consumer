@@ -52,6 +52,8 @@ public class ProducerConsumerTest {
     private void testOne(Class<?> testClass) {
         try {
             Method main = testClass.getMethod("main", String[].class);
+            // if os not reset, can't verify the correctness of ProducerConsumer2 to ProducerConsumerN
+            os.reset();
             main.invoke(null, new Object[] {null});
             systemOut.println("Output of " + testClass.getName() + ": " + os.toString());
             Assertions.assertTrue(
