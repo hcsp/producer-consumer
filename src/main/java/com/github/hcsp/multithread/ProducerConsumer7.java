@@ -43,6 +43,7 @@ public class ProducerConsumer7 {
             try {
                 for (int i = 0; i < 10; i++) {
                     while (!queue.isEmpty()) {
+                        Thread.sleep(1);
                     }
                     int random = new Random().nextInt();
                     queue.offer(random);
@@ -60,10 +61,11 @@ public class ProducerConsumer7 {
         @Override
         public void run() {
             for (int i = 0; i < 10; i++) {
-                while (queue.isEmpty()) {
-                }
-                System.out.println("Consuming " + queue.poll());
                 try {
+                    while (queue.isEmpty()) {
+                        Thread.sleep(1);
+                    }
+                    System.out.println("Consuming " + queue.poll());
                     cyclicBarriers[0].await();
                 } catch (InterruptedException | BrokenBarrierException e) {
                     e.printStackTrace();
