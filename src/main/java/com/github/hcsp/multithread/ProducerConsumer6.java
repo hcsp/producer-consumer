@@ -66,7 +66,7 @@ public class ProducerConsumer6 {
                 for (int i = 0; i < 9; i++) {
                     consumerCount[i].await();
                     System.out.println("Consuming " + queue.poll());
-                    producerCount[i+1].countDown();
+                    producerCount[i + 1].countDown();
                 }
                 consumerCount[9].await();
                 System.out.println("Consuming " + queue.poll());
