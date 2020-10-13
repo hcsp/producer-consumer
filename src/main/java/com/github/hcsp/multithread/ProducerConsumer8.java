@@ -2,18 +2,15 @@ package com.github.hcsp.multithread;
 
 
 import java.util.Random;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.Exchanger;
 
 /***
- *  使用阻塞队列实现
+ *  使用Exchanger
  *  @author gongxuanzhang
  **/
-public class ProducerConsumer5 {
+public class ProducerConsumer8 {
 
-    static BlockingQueue<Integer> queue = new ArrayBlockingQueue<>(1);
-
+    static Exchanger<Integer> exchanger = new Exchanger<>();
 
     public static void main(String[] args) throws InterruptedException {
         Producer producer = new Producer();
@@ -34,13 +31,12 @@ public class ProducerConsumer5 {
             for (int i = 0; i < 10; i++) {
                 int random = new Random().nextInt();
                 try {
-                    queue.offer(random, 100, TimeUnit.MILLISECONDS);
+                    exchanger.exchange(random);
+                    System.out.println("Producing " + random);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                System.out.println("Producing " + random);
             }
-
         }
     }
 
@@ -48,13 +44,17 @@ public class ProducerConsumer5 {
 
         @Override
         public void run() {
+            Integer random = null;
+
             for (int i = 0; i < 10; i++) {
                 try {
-                    System.out.println("Consuming " + queue.poll(100, TimeUnit.MILLISECONDS));
+                    random = exchanger.exchange(0);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+                System.out.println("Consuming " + random);
             }
+
         }
     }
 }
