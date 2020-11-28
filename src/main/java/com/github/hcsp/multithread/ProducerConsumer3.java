@@ -5,11 +5,15 @@ import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.LinkedBlockingDeque;
 
 public class ProducerConsumer3 {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         BlockingDeque<Integer> integerQueue = new LinkedBlockingDeque<>(1);
         // BlockingDeque<Integer> signal = new LinkedBlockingDeque<>(1);
-        new Thread(() -> threadProduce(integerQueue), "Producing").start();
-        new Thread(() -> threadConsume(integerQueue), "Consuming").start();
+        Thread producing = new Thread(() -> threadProduce(integerQueue), "Producing");
+        producing.start();
+        Thread consuming = new Thread(() -> threadConsume(integerQueue), "Consuming");
+        consuming.start();
+        producing.join();
+        consuming.join();
     }
 
     static void threadProduce(BlockingDeque<Integer> integerQueue) {
