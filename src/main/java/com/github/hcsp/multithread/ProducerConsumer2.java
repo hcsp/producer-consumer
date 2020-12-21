@@ -5,9 +5,8 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class ProducerConsumer2 {
-    static public int sign;
-    static public int val;
-
+    public static int sign;
+    public static int val;
     public static void main(String[] args) throws InterruptedException {
         ReentrantLock lock = new ReentrantLock();
         Condition condition = lock.newCondition();
