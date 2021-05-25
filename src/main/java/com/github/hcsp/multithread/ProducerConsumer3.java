@@ -5,18 +5,18 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class ProducerConsumer3 {
-        public static void main(String[] args) throws InterruptedException {
-            BlockingQueue<Integer> queue = new LinkedBlockingQueue<>(1);
-            BlockingQueue<Integer> signal = new LinkedBlockingQueue<>(1);
-            Producer producer = new Producer(queue,signal);
-            Consumer consumer = new Consumer(queue,signal);
+    public static void main(String[] args) throws InterruptedException {
+        BlockingQueue<Integer> queue = new LinkedBlockingQueue<>(1);
+        BlockingQueue<Integer> signal = new LinkedBlockingQueue<>(1);
+        Producer producer = new Producer(queue, signal);
+        Consumer consumer = new Consumer(queue, signal);
 
-            producer.start();
-            consumer.start();
+        producer.start();
+        consumer.start();
 
-            producer.join();
-            producer.join();
-        }
+        producer.join();
+        producer.join();
+    }
 
     public static class Producer extends Thread {
         BlockingQueue<Integer> queue;
