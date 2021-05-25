@@ -89,7 +89,7 @@ public class ProducerConsumer2 {
         private final Condition notConsumedYet;
         private final Condition notProducedYet;
 
-        public Container(ReentrantLock lock) {
+        Container(ReentrantLock lock) {
             this.notConsumedYet = lock.newCondition();
             this.notProducedYet = lock.newCondition();
         }
