@@ -16,6 +16,9 @@ public class ProducerConsumer1 {
         producer.start();
         consumer.start();
 
+        producer.join();
+        producer.join();
+
     }
 
     public static class Producer extends Thread {
@@ -39,7 +42,7 @@ public class ProducerConsumer1 {
                         }
                     }
                     int number = new Random().nextInt();
-                    System.out.println("生产:" + number);
+                    System.out.println("Producing " + number);
                     container.setValue(Optional.of(number));
                     lock.notify();
                 }
@@ -67,7 +70,7 @@ public class ProducerConsumer1 {
                             e.printStackTrace();
                         }
                     }
-                    System.out.println("消费:" + container.getValue().get());
+                    System.out.println("Consuming " + container.getValue().get());
                     container.setValue(Optional.empty());
                     lock.notify();
                 }

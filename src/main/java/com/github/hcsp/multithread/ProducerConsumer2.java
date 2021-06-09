@@ -40,7 +40,7 @@ public class ProducerConsumer2 {
                         container.getNotEmpty().await();
                     }
                     int number = new Random().nextInt();
-                    System.out.println("生产：" + number);
+                    System.out.println("Producing " + number);
                     container.setValue(Optional.of(number));
                     container.getEmpty().signal();
 
@@ -71,7 +71,7 @@ public class ProducerConsumer2 {
                     while (!container.getValue().isPresent()) {
                         container.getEmpty().await();
                     }
-                    System.out.println("消费：" + container.getValue().get());
+                    System.out.println("Consuming " + container.getValue().get());
                     container.setValue(Optional.empty());
                     container.getNotEmpty().signal();
                 } catch (InterruptedException e) {
