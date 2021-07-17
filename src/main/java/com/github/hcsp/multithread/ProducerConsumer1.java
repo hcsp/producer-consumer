@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.Random;
 
 public class ProducerConsumer1 {
-    private static int index = 0;
     private static final Object lock = new Object();
     private static List<Integer> basket = new ArrayList<>(1);
+    private static int index = 0;
 
     public static void main(String[] args) throws InterruptedException {
         Producer producer = new Producer();
