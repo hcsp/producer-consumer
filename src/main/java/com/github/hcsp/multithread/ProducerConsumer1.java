@@ -5,7 +5,7 @@ import java.util.List;
 
 public class ProducerConsumer1 {
     private static final Object lock = new Object();
-    private static List<Integer> basket = new ArrayList<>(1);
+    private static final List<Integer> basket = new ArrayList<>(1);
     private static int index = 0;
 
     public static void main(String[] args) throws InterruptedException {

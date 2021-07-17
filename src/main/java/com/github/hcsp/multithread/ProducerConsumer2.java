@@ -11,7 +11,7 @@ public class ProducerConsumer2 {
     private static final Condition isConsumed = lock.newCondition();
     private static final Condition isProduced = lock.newCondition();
 
-    private static List<Integer> basket = new ArrayList<>(1);
+    private static final List<Integer> basket = new ArrayList<>(1);
     private static int index = 0;
 
     public static void main(String[] args) throws InterruptedException {

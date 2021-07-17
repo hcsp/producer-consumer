@@ -5,8 +5,7 @@ import java.util.Random;
 
 public class Worker {
     public static void Produce(List<Integer> list) {
-        int random = new Random().nextInt();
-        list.add(random);
+        list.add(new Random().nextInt());
         System.out.println("Producing " + list.get(0));
     }
 
