@@ -1,12 +1,10 @@
 package com.github.hcsp.multithread;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.Exchanger;
 
 public class ProducerConsumer5 {
     private static final Exchanger<Integer> exchanger = new Exchanger<Integer>();
-    private static final List<Integer> basket = new ArrayList<>(1);
+    private static final Basket basket = new Basket();
     private static int index = 0;
 
     public static void main(String[] args) throws InterruptedException {
@@ -53,7 +51,7 @@ public class ProducerConsumer5 {
 
         @Override
         public void produce() throws InterruptedException {
-            if (basket.isEmpty()) {
+            if (!basket.getValue().isPresent()) {
                 int random = Worker.Produce(basket);
                 exchanger.exchange(random);
             }
@@ -61,7 +59,7 @@ public class ProducerConsumer5 {
 
         @Override
         public void consume() throws InterruptedException {
-            if (!basket.isEmpty()) {
+            if (basket.getValue().isPresent()) {
                 Worker.Consume(basket);
                 index++;
                 exchanger.exchange(1);

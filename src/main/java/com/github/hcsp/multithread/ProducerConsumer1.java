@@ -1,11 +1,8 @@
 package com.github.hcsp.multithread;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ProducerConsumer1 {
     private static final Object lock = new Object();
-    private static final List<Integer> basket = new ArrayList<>(1);
+    private static final Basket basket = new Basket();
     private static int index = 0;
 
     public static void main(String[] args) throws InterruptedException {
@@ -53,23 +50,21 @@ public class ProducerConsumer1 {
 
         @Override
         public void produce() throws InterruptedException {
-            if (basket.isEmpty()) {
-                Worker.Produce(basket);
-                lock.notify();
-            } else {
+            while (basket.getValue().isPresent()) {
                 lock.wait();
             }
+            Worker.Produce(basket);
+            lock.notify();
         }
 
         @Override
         public void consume() throws InterruptedException {
-            if (basket.isEmpty()) {
+            while (!basket.getValue().isPresent()) {
                 lock.wait();
-            } else {
-                Worker.Consume(basket);
-                index++;
-                lock.notify();
             }
+            Worker.Consume(basket);
+            index++;
+            lock.notify();
         }
     }
 }

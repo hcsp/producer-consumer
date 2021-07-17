@@ -1,7 +1,5 @@
 package com.github.hcsp.multithread;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -11,7 +9,7 @@ public class ProducerConsumer2 {
     private static final Condition isConsumed = lock.newCondition();
     private static final Condition isProduced = lock.newCondition();
 
-    private static final List<Integer> basket = new ArrayList<>(1);
+    private static final Basket basket = new Basket();
     private static int index = 0;
 
     public static void main(String[] args) throws InterruptedException {
@@ -60,7 +58,7 @@ public class ProducerConsumer2 {
 
         @Override
         public void produce() throws InterruptedException {
-            if (basket.isEmpty()) {
+            if (!basket.getValue().isPresent()) {
                 Worker.Produce(basket);
                 isProduced.signal();
             } else {
@@ -70,7 +68,7 @@ public class ProducerConsumer2 {
 
         @Override
         public void consume() throws InterruptedException {
-            if (basket.isEmpty()) {
+            if (!basket.getValue().isPresent()) {
                 isProduced.wait();
             } else {
                 Worker.Consume(basket);
