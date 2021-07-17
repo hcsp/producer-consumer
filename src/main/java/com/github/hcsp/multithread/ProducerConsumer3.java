@@ -38,7 +38,7 @@ public class ProducerConsumer3 {
         @Override
         public void run(Enum<Type> type) {
             try {
-                while (index < 3) {
+                while (index < 10) {
                     if (type == Type.CONSUME) {
                         consume();
                     } else {
