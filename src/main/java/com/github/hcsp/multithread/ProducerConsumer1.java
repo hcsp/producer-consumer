@@ -2,7 +2,6 @@ package com.github.hcsp.multithread;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class ProducerConsumer1 {
     private static final Object lock = new Object();
@@ -23,40 +22,53 @@ public class ProducerConsumer1 {
     public static class Producer extends Thread {
         @Override
         public void run() {
-            while (index < 10) {
-                synchronized (lock) {
-                    if (basket.isEmpty()) {
-                        Worker.Produce(basket);
-                        lock.notify();
-                    } else {
-                        try {
-                            lock.wait();
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                }
-            }
+            new CreateRunInstance().run(Type.PRODUCE);
         }
     }
 
     public static class Consumer extends Thread {
         @Override
         public void run() {
+            new CreateRunInstance().run(Type.CONSUME);
+        }
+    }
+
+    private static class CreateRunInstance implements CreateRun {
+        @Override
+        public void run(Enum<Type> type) {
             while (index < 10) {
                 synchronized (lock) {
-                    if (basket.isEmpty()) {
-                        try {
-                            lock.wait();
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
+                    try {
+                        if (type == Type.CONSUME) {
+                            consume();
+                        } else {
+                            produce();
                         }
-                    } else {
-                        Worker.Consume(basket);
-                        index++;
-                        lock.notify();
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
                     }
                 }
+            }
+        }
+
+        @Override
+        public void produce() throws InterruptedException {
+            if (basket.isEmpty()) {
+                Worker.Produce(basket);
+                lock.notify();
+            } else {
+                lock.wait();
+            }
+        }
+
+        @Override
+        public void consume() throws InterruptedException {
+            if (basket.isEmpty()) {
+                lock.wait();
+            } else {
+                Worker.Consume(basket);
+                index++;
+                lock.notify();
             }
         }
     }

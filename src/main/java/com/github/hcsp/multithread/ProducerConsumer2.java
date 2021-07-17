@@ -2,7 +2,6 @@ package com.github.hcsp.multithread;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -29,14 +28,27 @@ public class ProducerConsumer2 {
     public static class Producer extends Thread {
         @Override
         public void run() {
+            new CreateRunInstance().run(Type.PRODUCE);
+        }
+    }
+
+    public static class Consumer extends Thread {
+        @Override
+        public void run() {
+            new CreateRunInstance().run(Type.CONSUME);
+        }
+    }
+
+    private static class CreateRunInstance implements CreateRun {
+        @Override
+        public void run(Enum<Type> type) {
             lock.lock();
             try {
                 while (index < 10) {
-                    if (basket.isEmpty()) {
-                        Worker.Produce(basket);
-                        isProduced.signal();
+                    if (type == Type.CONSUME) {
+                        consume();
                     } else {
-                        isConsumed.wait();
+                        produce();
                     }
                 }
             } catch (InterruptedException e) {
@@ -44,28 +56,26 @@ public class ProducerConsumer2 {
             } finally {
                 lock.unlock();
             }
-
         }
-    }
 
-    public static class Consumer extends Thread {
         @Override
-        public void run() {
-            lock.lock();
-            try {
-                while (index < 10) {
-                    if (basket.isEmpty()) {
-                        isProduced.wait();
-                    } else {
-                        Worker.Consume(basket);
-                        index++;
-                        isConsumed.signal();
-                    }
-                }
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            } finally {
-                lock.unlock();
+        public void produce() throws InterruptedException {
+            if (basket.isEmpty()) {
+                Worker.Produce(basket);
+                isProduced.signal();
+            } else {
+                isConsumed.wait();
+            }
+        }
+
+        @Override
+        public void consume() throws InterruptedException {
+            if (basket.isEmpty()) {
+                isProduced.wait();
+            } else {
+                Worker.Consume(basket);
+                index++;
+                isConsumed.signal();
             }
         }
     }
