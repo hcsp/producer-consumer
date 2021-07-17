@@ -33,9 +33,7 @@ public class ProducerConsumer2 {
             try {
                 while (index < 10) {
                     if (basket.isEmpty()) {
-                        int random = new Random().nextInt();
-                        basket.add(random);
-                        System.out.println("Producing " + basket.get(0));
+                        Worker.Produce(basket);
                         isProduced.signal();
                     } else {
                         isConsumed.wait();
@@ -59,8 +57,7 @@ public class ProducerConsumer2 {
                     if (basket.isEmpty()) {
                         isProduced.wait();
                     } else {
-                        System.out.println("Consuming " + basket.get(0));
-                        basket.remove(0);
+                        Worker.Consume(basket);
                         index++;
                         isConsumed.signal();
                     }

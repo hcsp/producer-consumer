@@ -26,9 +26,7 @@ public class ProducerConsumer1 {
             while (index < 10) {
                 synchronized (lock) {
                     if (basket.isEmpty()) {
-                        int random = new Random().nextInt();
-                        basket.add(random);
-                        System.out.println("Producing " + basket.get(0));
+                        Worker.Produce(basket);
                         lock.notify();
                     } else {
                         try {
@@ -54,8 +52,7 @@ public class ProducerConsumer1 {
                             throw new RuntimeException(e);
                         }
                     } else {
-                        System.out.println("Consuming " + basket.get(0));
-                        basket.remove(0);
+                        Worker.Consume(basket);
                         index++;
                         lock.notify();
                     }
