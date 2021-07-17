@@ -6,8 +6,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class ProducerConsumer2 {
     private static final Lock lock = new ReentrantLock();
-    private static final Condition isConsumed = lock.newCondition();
-    private static final Condition isProduced = lock.newCondition();
+    private static final Condition notProducedYet = lock.newCondition();
+    private static final Condition notConsumedYet = lock.newCondition();
 
     private static final Basket basket = new Basket();
     private static int index = 0;
@@ -58,23 +58,22 @@ public class ProducerConsumer2 {
 
         @Override
         public void produce() throws InterruptedException {
-            if (!basket.getValue().isPresent()) {
-                Worker.Produce(basket);
-                isProduced.signal();
-            } else {
-                isConsumed.wait();
+            while (basket.getValue().isPresent()) {
+                notProducedYet.await();
             }
+
+            Worker.Produce(basket);
+            notConsumedYet.signal();
         }
 
         @Override
         public void consume() throws InterruptedException {
-            if (!basket.getValue().isPresent()) {
-                isProduced.wait();
-            } else {
-                Worker.Consume(basket);
-                index++;
-                isConsumed.signal();
+            while (!basket.getValue().isPresent()) {
+                notConsumedYet.await();
             }
+            Worker.Consume(basket);
+            index++;
+            notProducedYet.signal();
         }
     }
 }
