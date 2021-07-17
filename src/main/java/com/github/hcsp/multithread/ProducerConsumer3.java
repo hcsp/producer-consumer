@@ -1,12 +1,12 @@
 package com.github.hcsp.multithread;
 
 import java.util.Random;
-import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class ProducerConsumer3 {
-    private static final BlockingQueue<Integer> queue = new ArrayBlockingQueue<Integer>(1);
-    private static int index = 0;
+    private static final BlockingQueue<Integer> queue = new LinkedBlockingQueue<>(1);
+    private static final BlockingQueue<Integer> signalQueue = new LinkedBlockingQueue<>();
 
     public static void main(String[] args) throws InterruptedException {
         Producer producer = new Producer();
@@ -37,16 +37,16 @@ public class ProducerConsumer3 {
     private static class CreateRunInstance implements CreateRun {
         @Override
         public void run(Enum<Type> type) {
-            try {
-                while (index < 10) {
+            for (int i = 0; i < 10; i++) {
+                try {
                     if (type == Type.CONSUME) {
                         consume();
                     } else {
                         produce();
                     }
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
                 }
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
             }
         }
 
@@ -55,13 +55,13 @@ public class ProducerConsumer3 {
             int random = new Random().nextInt();
             System.out.println("Producing " + random);
             queue.put(random);
+            signalQueue.take();
         }
 
         @Override
         public void consume() throws InterruptedException {
-            int random = queue.take();
-            index++;
-            System.out.println("Consuming " + random);
+            System.out.println("Consuming " + queue.take());
+            signalQueue.put(0);
         }
     }
 
