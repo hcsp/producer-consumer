@@ -1,18 +1,15 @@
 package com.github.hcsp.multithread;
 
-import java.util.Optional;
 import java.util.Random;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class ProducerConsumer3 {
     public static void main(String[] args) throws InterruptedException {
         BlockingQueue<Integer> queue = new LinkedBlockingDeque<>(1);
         BlockingQueue<Integer> signalQueue = new LinkedBlockingDeque<>(1);
-        Producer producer = new Producer(queue,signalQueue);
-        Consumer consumer = new Consumer(queue,signalQueue);
+        Producer producer = new Producer(queue, signalQueue);
+        Consumer consumer = new Consumer(queue, signalQueue);
 
         producer.start();
         consumer.start();
