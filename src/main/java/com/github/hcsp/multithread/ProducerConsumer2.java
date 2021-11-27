@@ -78,7 +78,7 @@ public class ProducerConsumer2 {
                         }
                     }
                     int r = new Random().nextInt();
-                    System.out.println("Producing" + r);
+                    System.out.println("Producing " + r);
                     container.setValue(Optional.of(r));
                     container.getNotProductYet().signal();
                 } finally {
@@ -111,7 +111,7 @@ public class ProducerConsumer2 {
                     }
                     Integer value = container.getValue().get();
                     container.setValue(Optional.empty());
-                    System.out.println("Consuming" + value);
+                    System.out.println("Consuming " + value);
                     container.getNotConsumerYet().signal();
                 } finally {
                     lock.unlock();
