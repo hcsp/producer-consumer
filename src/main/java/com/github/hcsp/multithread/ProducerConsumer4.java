@@ -14,11 +14,13 @@ public class ProducerConsumer4 {
 
     public static class Producer extends Thread {
         @Override
-        public void run() {}
+        public void run() {
+        }
     }
 
     public static class Consumer extends Thread {
         @Override
-        public void run() {}
+        public void run() {
+        }
     }
 }

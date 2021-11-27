@@ -6,11 +6,11 @@ import java.util.concurrent.LinkedBlockingDeque;
 
 public class ProducerConsumer3 {
     public static void main(String[] args) throws InterruptedException {
-        BlockingQueue<Integer> queue= new LinkedBlockingDeque<>(1);
-        BlockingQueue<Integer>signalQueue =new LinkedBlockingDeque<>(1);
+        BlockingQueue<Integer> queue = new LinkedBlockingDeque<>(1);
+        BlockingQueue<Integer> signalQueue = new LinkedBlockingDeque<>(1);
 
-        Producer producer = new Producer(queue,signalQueue);
-        Consumer consumer = new Consumer(queue,signalQueue);
+        Producer producer = new Producer(queue, signalQueue);
+        Consumer consumer = new Consumer(queue, signalQueue);
 
         producer.start();
         consumer.start();
@@ -32,7 +32,7 @@ public class ProducerConsumer3 {
         public void run() {
             for (int i = 0; i < 10; i++) {
                 int r = new Random().nextInt();
-                System.out.println("Produing"+r);
+                System.out.println("Produing" + r);
                 try {
                     queue.put(r);
                     signalQueue.take();
@@ -56,7 +56,7 @@ public class ProducerConsumer3 {
         public void run() {
             for (int i = 0; i < 10; i++) {
                 try {
-                    System.out.println("Consuming"+queue.take());
+                    System.out.println("Consuming" + queue.take());
                     signalQueue.put(0);
                 } catch (InterruptedException e) {
                     e.printStackTrace();

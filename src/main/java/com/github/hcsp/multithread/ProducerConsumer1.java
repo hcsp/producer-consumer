@@ -5,10 +5,10 @@ import java.util.Random;
 
 public class ProducerConsumer1 {
     public static void main(String[] args) throws InterruptedException {
-        Container container =new Container();
-        Object lock =new Object();
-        Producer producer = new Producer(container,lock);
-        Consumer consumer = new Consumer(container,lock);
+        Container container = new Container();
+        Object lock = new Object();
+        Producer producer = new Producer(container, lock);
+        Consumer consumer = new Consumer(container, lock);
         producer.start();
         consumer.start();
 
