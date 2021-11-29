@@ -10,8 +10,8 @@ public class ProducerConsumer3 {
         BlockingDeque blockingDeque = new LinkedBlockingDeque(1);
         BlockingDeque blockingDeque0 = new LinkedBlockingDeque(1);
 
-        Producer producer = new Producer(blockingDeque,blockingDeque0);
-        Consumer consumer = new Consumer(blockingDeque,blockingDeque0);
+        Producer producer = new Producer(blockingDeque, blockingDeque0);
+        Consumer consumer = new Consumer(blockingDeque, blockingDeque0);
 
         producer.start();
         consumer.start();
@@ -24,7 +24,7 @@ public class ProducerConsumer3 {
         BlockingDeque<Integer> blockingDeque;
         BlockingDeque<Integer> blockingDeque0;
 
-        public Producer(BlockingDeque<Integer> blockingDeque,BlockingDeque<Integer> blockingDeque0) {
+        public Producer(BlockingDeque<Integer> blockingDeque, BlockingDeque<Integer> blockingDeque0) {
             this.blockingDeque = blockingDeque;
             this.blockingDeque0 = blockingDeque0;
         }
@@ -49,7 +49,7 @@ public class ProducerConsumer3 {
         BlockingDeque<Integer> blockingDeque;
         BlockingDeque<Integer> blockingDeque0;
 
-        public Consumer(BlockingDeque<Integer> blockingDeque,BlockingDeque<Integer> blockingDeque0) {
+        public Consumer(BlockingDeque<Integer> blockingDeque, BlockingDeque<Integer> blockingDeque0) {
             this.blockingDeque = blockingDeque;
             this.blockingDeque0 = blockingDeque0;
         }

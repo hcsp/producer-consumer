@@ -19,7 +19,7 @@ public class ProducerConsumer1 {
     }
 
     //生产者线程
-     static class Producer extends Thread {
+    public static class Producer extends Thread {
         Object lock;
         Container container;
 
@@ -49,7 +49,7 @@ public class ProducerConsumer1 {
     }
 
     //消费者线程
-     static class Consumer extends Thread {
+    public static class Consumer extends Thread {
         Object lock;
         Container container;
 
@@ -78,7 +78,7 @@ public class ProducerConsumer1 {
         }
     }
 
-    static class Container {
+    public static class Container {
         private Optional<Integer> optional = Optional.empty();
 
         public Optional<Integer> getOptional() {

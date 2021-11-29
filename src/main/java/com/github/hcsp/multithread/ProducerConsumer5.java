@@ -5,19 +5,19 @@ import java.util.Random;
 import java.util.concurrent.Semaphore;
 
 public class ProducerConsumer5 {
-        public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException {
 
-            Container container = new Container();
+        Container container = new Container();
 
-            Producer producer = new Producer(container);
-            Consumer consumer = new Consumer(container);
+        Producer producer = new Producer(container);
+        Consumer consumer = new Consumer(container);
 
-            producer.start();
-            consumer.start();
+        producer.start();
+        consumer.start();
 
-            producer.join();
-            producer.join();
-        }
+        producer.join();
+        producer.join();
+    }
 
     public static class Producer extends Thread {
         Container container;
@@ -25,6 +25,7 @@ public class ProducerConsumer5 {
         public Producer(Container container) {
             this.container = container;
         }
+
         @Override
         public void run() {
             for (int j = 0; j < 10; j++) {
@@ -51,12 +52,13 @@ public class ProducerConsumer5 {
         public Consumer(Container container) {
             this.container = container;
         }
+
         @Override
         public void run() {
             for (int j = 0; j < 10; j++) {
                 try {
 
-                    while (!container.getOptional().isPresent()){
+                    while (!container.getOptional().isPresent()) {
                         container.semaphore0.acquire();
                     }
                     Integer a = container.getOptional().get();
@@ -71,10 +73,11 @@ public class ProducerConsumer5 {
             }
         }
     }
+
     static class Container {
         private Optional<Integer> optional = Optional.empty();
-        Semaphore semaphore =new Semaphore(1);
-        Semaphore semaphore0 =new Semaphore(0);
+        Semaphore semaphore = new Semaphore(1);
+        Semaphore semaphore0 = new Semaphore(0);
 
 
         public Optional<Integer> getOptional() {

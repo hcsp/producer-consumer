@@ -6,19 +6,19 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class ProducerConsumer2 {
-        public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException {
 
-            ReentrantLock object = new ReentrantLock();
-            Container container = new Container(object);
-            Producer producer = new Producer(object,container);
-            Consumer consumer = new Consumer(object,container);
+        ReentrantLock object = new ReentrantLock();
+        Container container = new Container(object);
+        Producer producer = new Producer(object, container);
+        Consumer consumer = new Consumer(object, container);
 
-            producer.start();
-            consumer.start();
+        producer.start();
+        consumer.start();
 
-            producer.join();
-            producer.join();
-        }
+        producer.join();
+        producer.join();
+    }
 
     public static class Producer extends Thread {
         ReentrantLock lock;
@@ -35,7 +35,7 @@ public class ProducerConsumer2 {
 
                 lock.lock();
                 try {
-                    while (container.getOptional().isPresent()){
+                    while (container.getOptional().isPresent()) {
                         container.notEmpty.await();
                     }
                     int r = new Random().nextInt();
@@ -66,7 +66,7 @@ public class ProducerConsumer2 {
 
                 lock.lock();
                 try {
-                    while (!container.getOptional().isPresent()){
+                    while (!container.getOptional().isPresent()) {
                         container.notFull.await();
                     }
                     Integer a = container.optional.get();
@@ -81,7 +81,8 @@ public class ProducerConsumer2 {
             }
         }
     }
-    static class Container{
+
+    public static class Container {
         private Optional<Integer> optional = Optional.empty();
         ReentrantLock lock;
         Condition notFull;

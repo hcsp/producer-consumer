@@ -3,33 +3,31 @@ package com.github.hcsp.multithread;
 import java.util.Optional;
 import java.util.Random;
 import java.util.concurrent.Exchanger;
-import java.util.concurrent.Semaphore;
 
 public class ProducerConsumer4 {
-        public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException {
 
-            Exchanger<Container> exchanger = new Exchanger<Container>();
-            Container container0 = new Container();
-            Container container1 = new Container();
+        Exchanger<Container> exchanger = new Exchanger<Container>();
+        Container container0 = new Container();
+        Container container1 = new Container();
 
-            Producer producer = new Producer(exchanger,container0);
-            Consumer consumer = new Consumer(exchanger,container1);
-
-
-            producer.start();
-            consumer.start();
+        Producer producer = new Producer(exchanger, container0);
+        Consumer consumer = new Consumer(exchanger, container1);
 
 
+        producer.start();
+        consumer.start();
 
-            producer.join();
-            producer.join();
-        }
+
+        producer.join();
+        producer.join();
+    }
 
     public static class Producer extends Thread {
         Container container0;
         Exchanger<Container> exchanger;
 
-        public Producer(Exchanger exchanger,Container container) {
+        public Producer(Exchanger exchanger, Container container) {
             this.exchanger = exchanger;
             this.container0 = container;
         }
@@ -57,7 +55,7 @@ public class ProducerConsumer4 {
         Exchanger<Container> exchanger;
         Container container1;
 
-        public Consumer(Exchanger exchanger,Container container) {
+        public Consumer(Exchanger exchanger, Container container) {
             this.exchanger = exchanger;
             this.container1 = container;
         }
@@ -66,11 +64,11 @@ public class ProducerConsumer4 {
         public void run() {
             for (int j = 0; j < 10; j++) {
 
-                    try {
-                        container1 = exchanger.exchange(container1);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+                try {
+                    container1 = exchanger.exchange(container1);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
                 Integer a = container1.optional.get();
                 System.out.println("Consuming " + a);
@@ -79,6 +77,7 @@ public class ProducerConsumer4 {
             }
         }
     }
+
     static class Container {
         private Optional<Integer> optional = Optional.empty();
 
