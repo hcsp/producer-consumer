@@ -85,7 +85,7 @@ public class ProducerConsumer2 {
     }
 
     private static class Container {
-        public Container(ReentrantLock lock) {
+        Container(ReentrantLock lock) {
             this.notConsumed = lock.newCondition();
             this.notProduced = lock.newCondition();
         }
