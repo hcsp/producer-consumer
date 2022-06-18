@@ -68,9 +68,9 @@ public class ProducerConsumer1 {
                             e.printStackTrace();
                         }
                     }
-                    Integer value = container.getContainer().get();
+                    Integer r = container.getContainer().get();
                     container.setContainer(Optional.empty());
-                    System.out.println("Consumer " + value);
+                    System.out.println("Consumer " + r);
                     lock.notify();
                 }
             }
